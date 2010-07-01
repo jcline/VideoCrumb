@@ -1,4 +1,6 @@
-#include "headers/helperfunctions.h"
+#include "helperfunctions.h"
+
+using namespace std;
 
 namespace helpers {
 
@@ -22,10 +24,10 @@ namespace helpers {
 	}
 
 	bool alpha( Show s1, Show s2 ) {
-		return ( s1.printName() < s2.printName() );
+		return ( s1.name < s2.name );
 	}
 	bool r_alpha( Show s1, Show s2 ) {
-		return ( s1.printName() > s2.printName() );
+		return ( s1.name > s2.name );
 	}
 }
 
@@ -71,7 +73,7 @@ vector<string>& getDirFiles( const string& s ) {
 
 	return *v;
 }
-
+/*
 Season& makeSeasonFromDir( const string& base, const string& dir ) {
 
 	vector<string> v = getDirFiles(base + dir + "/");
@@ -86,7 +88,7 @@ Season& makeSeasonFromDir( const string& base, const string& dir ) {
 
 	return *s;
 }
-
+*/
 void readconf() {
 	return ;
 }
@@ -114,15 +116,15 @@ vector<Show>& readdb() {
 			db >> anext >> acount >> asize;
 			db.ignore(10000,'\n');
 
-			Season *season = new Season( asize, aname );
+//			Season *season = new Season( asize, aname );
 			for( j = 1; j <= acount; ++j ) {
 				string file;
 				getline( db, file, '\n' );
-				season->add( file );
+//				season->add( file );
 			}
-			season->setNext( anext );
+//			season->setNext( anext );
 
-			s.add( *season );
+//			s.add( *season );
 
 		}
 
