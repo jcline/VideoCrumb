@@ -1,0 +1,62 @@
+
+Manages television shows and associated movies and specials playback.
+Uses mplayer for playback.
+
+Dependencies:
+	ncurses
+	mplayer
+
+Compilation:
+	1. Edit ncurses.cpp line 29 and 115, change "..." to a directory with
+	subdirectories of video files. (ie, "/home/name/Shows" where Shows
+	has subdirectories of the form: Show name/episodes.ext)
+	2. Edit helperfunctions.cpp line 98 and 140 to where you want the database file saved.
+	3. make ncurses
+
+
+Usage:
+	./ncurses
+
+-Keys:
+	Up, Page Up			Scroll up in the list
+	Down, Page Down	Scroll down in the list
+	/%s					Find next occurance of %s in the list
+	<Return>				Add a show
+	n						Play the next episode in the series
+	b						Move back one episode in the series
+	p%n					Play next %n (0-9) episodes
+	q						Save database and exit
+
+-Adding a show:
+		Press <Return>, type in the name of the folder the video files are
+	contained in the directory you set during compilation. The episodes will
+	be added in alphabetical order (currently you cannot view the episode 
+	list in the program itself).
+	Example:
+			If your show's episodes are contained in /mnt/Video/House M.D.,
+		the directory set during compilation should be /mnt/Video. Then:
+		<Return>House M.D.<Return>
+
+Bugs:
+		The only way to change an episode ordering or remove non-media files
+	(.sfv, .md5, etc) is to edit the database file by hand. Format:
+			<string, name of series>
+			<int, next season to play> <int, total number of seasons>
+			<string, season name>
+			<int, next episode to play> <int, total number of episodes> <int, total number of episodes>
+			<string, complete path to video file>
+			<string, complete path to video file>
+			...
+			[Repeat above for each show.]
+		Currently, keep the series name the same as season name, ie House M.D. 	for both. The next season to play should be 0, total number of seasons 1.
+
+		If you exit mplayer before the video is finished, it still increments 	the show's counter. (feature? hah)
+
+		Display of unicode characters does not work, however playback of a
+	file with a unicode character(s) in its file name or path works normally.
+
+		^c exits without saving anything. (feature?)
+
+		Movies, specials, etc support not complete. In theory, you can add
+	them by hand in the database file, but the playback of anything more
+	than one normal season is untested (might have caused a segfault?).
