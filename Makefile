@@ -6,19 +6,8 @@ LINKER		= g++
 LFLAGS		= -o
 CURSESFLAGS	= -lncurses
 
-OBJS  = \
-        helperfunctions.o
-#OBJS			= Anime.o \
-				  Show.o \
-				  Season.o \
-				  OAV.o \
-				  Movie.o \
-				  Special.o \
-				  Episode.o \
-				  Item.o \
-				  helperfunctions.o 
-
-#path %.h headers
+OBJS	= \
+	helperfunctions.o
 
 ncurses: ncurses.o ${OBJS}
 	${CXX} ${CURSESFLAGS} ${LFLAGS} $@ ${OBJS} ncurses.o

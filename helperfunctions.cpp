@@ -143,7 +143,8 @@ void savedb( const vector<Show>& shows ) {
 	
 	vector<Show>::const_iterator it;
 	for( it = shows.begin(); it < shows.end(); ++it)
-		db << *it; 
+  {}
+//		db << *it; 
 
 	db.close();
 }
