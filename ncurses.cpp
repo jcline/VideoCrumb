@@ -6,6 +6,7 @@
 
 #include "Show.h"
 #include "Playlist.h"
+#include "Player.h"
 
 using std::string;
 using std::vector;

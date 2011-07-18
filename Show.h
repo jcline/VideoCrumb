@@ -10,18 +10,10 @@ class Show {
 		unsigned short type;
 
 		Show( std::string n = "", std::string f = "",
-				unsigned short t = 0 ) : name(n), file(f), type(t) {
-		}
-
-		Show(const Show& other) {
-			name = other.name;
-			file = other.file;
-			type = other.type;
-		}
-
-		std::string print() {
-			return name;
-		}
+				unsigned short t = 0 ) : name(n), file(f), type(t) {}
+		
+		Show(const Show& other);
+		std::string print();
 
 };
 

@@ -24,51 +24,13 @@ class Playlist {
 
 		~Playlist() {}
 
-		void add(Show s) {
-			items.push_back(s);
-			changed = true;
-		}
-
-		void add(Show s, size_t pos) {
-			if(pos < items.size())
-				items.insert(items.begin()+pos, s);
-		}
-
-		auto begin() -> decltype(items.end()) {
-			return items.begin();
-		}
-
-		auto end() -> decltype(items.end()) {
-			return items.end();
-		}
-
-		std::string print() {
-			if(changed) {
-				std::stringstream out;
-				size_t i = 0;
-				for(auto it = items.begin(); it < items.end(); ++it, ++i)
-					out << i+1 << ": " << it->print() << '\n';
-				printstr = out.str();
-				changed = false;
-			}
-
-			return printstr;
-		}
-
-		std::string print(size_t pos) {
-			if(pos >= 0 && pos < items.size()) {
-				std::stringstream out;
-				out << pos << ": " << items[pos].print();
-				return out.str();
-			}
-			return "";
-		}
-				
-
-		void remove(size_t pos) {
-			if(pos < items.size())
-				items.erase(items.begin()+pos);
-		}
+		void add(Show s);
+		void add(Show s, size_t pos);
+		auto begin() -> decltype(items.end());
+		auto end() -> decltype(items.end());
+		std::string print();
+		std::string print(size_t pos);
+		void remove(size_t pos);
 
 	private:
 		bool changed;

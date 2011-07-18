@@ -6,11 +6,20 @@ LINKER		= g++
 LFLAGS		= -o
 CURSESFLAGS	= -lncurses
 
-OBJS	= \
-	helperfunctions.o
+SRC = \
+			helperfunctions.cpp \
+			Show.cpp \
+			Playlist.cpp \
+			Player.cpp \
+			ncurses.cpp
 
-ncurses: ncurses.o ${OBJS}
-	${CXX} ${CURSESFLAGS} ${LFLAGS} $@ ${OBJS} ncurses.o
+OBJS = $(SRC:.cpp=.o)
+
+ncurses: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(CURSESFLAGS) $(OBJS) -o $@
+
+.h.o:
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm ${OBJS} ncurses.o ncurses
+	rm $(OBJS) ncurses.o ncurses
