@@ -3,19 +3,26 @@
 
 #include <string>
 
-typedef struct show_ {
-	std::string name,
-		file;
-	unsigned short type;
+class Show {
+	public:
+		std::string name,
+			file;
+		unsigned short type;
 
-	show_ ( std::string n = "",
-			std::string f = "",
-			unsigned short t = 0 ) {
-		name = n;
-		file = f;
-		type = t;
-	}
+		Show( std::string n = "", std::string f = "",
+				unsigned short t = 0 ) : name(n), file(f), type(t) {
+		}
 
-} Show;
+		Show(const Show& other) {
+			name = other.name;
+			file = other.file;
+			type = other.type;
+		}
+
+		std::string print() {
+			return name;
+		}
+
+};
 
 #endif 

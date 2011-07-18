@@ -73,6 +73,9 @@ vector<string>& getDirFiles( const string& s ) {
 
 	return *v;
 }
+
+
+
 /*
 Season& makeSeasonFromDir( const string& base, const string& dir ) {
 
@@ -90,7 +93,7 @@ Season& makeSeasonFromDir( const string& base, const string& dir ) {
 }
 */
 void readconf() {
-	return ;
+	return;
 }
 
 vector<Show>& readdb() {
