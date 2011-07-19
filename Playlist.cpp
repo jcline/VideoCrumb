@@ -12,6 +12,7 @@ void Playlist::add(Show s) {
 void Playlist::add(Show s, size_t pos) {
 	if(pos < items.size())
 		items.insert(items.begin()+pos, s);
+	changed = true;
 }
 
 auto Playlist::begin() -> decltype(items.end()) {

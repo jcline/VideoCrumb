@@ -4,7 +4,7 @@
 using std::string;
 
 int Player::play(const string& filename) {
-	return 0;
+	return system( (command + args + filename).c_str());
 }
 
 void Player::setplayer(string c) {
