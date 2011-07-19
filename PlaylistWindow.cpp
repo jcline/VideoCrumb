@@ -4,14 +4,38 @@
 
 using std::string;
 
-PlaylistWindow::PlaylistWindow(WINDOW* w, Playlist& p, string n) :
- 	Window(w,n) {
+extern string& strinput(const char* prepend = "");
+
+PlaylistWindow::PlaylistWindow(WINDOW* w, Playlist& p) :
+ 	Window(w) {
 	playlist = playlist;
 }
 
-PlaylistWindow::PlaylistWindow(const PlaylistWindow& p) :
- 	Window(p.window,p.name) {
-	playlist = p.playlist;
+PlaylistWindow::PlaylistWindow(WINDOW* w) : Window(w) {
+}
+
+void PlaylistWindow::command(const string& s) {
+}
+
+void PlaylistWindow::control(const int c) {
+	string s;
+	switch (c) {
+		case '\n':
+			s = strinput();
+			if(s.length())
+				input(s);
+			break;
+		case KEY_UP:
+			break;
+		case KEY_DOWN:
+			break;
+		case KEY_RIGHT:
+			break;
+		case KEY_LEFT:
+			break;
+		default:
+			break;
+	}	
 }
 
 void PlaylistWindow::drawit() {
@@ -19,7 +43,7 @@ void PlaylistWindow::drawit() {
 	wrefresh(window);
 }
 
-void PlaylistWindow::input(string s) {
+void PlaylistWindow::input(string& s) {
 	playlist.add(Show(s));
 }
 

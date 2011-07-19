@@ -7,16 +7,15 @@
 class Window{
 	public:
 		WINDOW* window;
-		std::string name;
 
 		Window(){}
 		Window(WINDOW* w);
-		Window(WINDOW* w, std::string n);
-		Window(const Window& w);
 		~Window() {}
 
+		virtual void command(const std::string& s) {}
+		virtual void control(const int c) {}
 		virtual void drawit() {}
-		virtual void input(std::string s) {}
+		virtual void input(std::string& s) {}
 
 };
 

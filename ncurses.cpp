@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Window.h"
 #include "PlaylistWindow.h"
+#include "Settings.h"
 
 using std::get;
 using std::string;
@@ -22,7 +23,7 @@ bool input();
 string& strinput(const char* prepend = "");
 
 Window* dispwin;
-tuple<PlaylistWindow> windows;
+tuple<PlaylistWindow,Settings> windows;
 
 string winnames;
 
@@ -47,7 +48,8 @@ int main( int argc, char **argv) {
 		PlaylistWindow p = windows[0];
 	}*/
 
-	windows = decltype(windows) ( PlaylistWindow(newwin(0,0,1,0), "Playlist") );
+	windows = decltype(windows) ( PlaylistWindow(newwin(0,0,1,0)),
+		 Settings(newwin(0,0,1,0))	);
 	winnames = "Playlist Shows Edit Settings";
 
 	dispwin = &get<0>(windows);
@@ -89,15 +91,6 @@ bool input() {
 
 	switch (in) {
 		case KEY_ENTER:
-		case '\n':
-			s = strinput();
-			if(s.length() > 0)
-				dispwin->input(s);
-			break;
-		case 's':
-			break;
-		case 'p':
-			break;
 		case 'q':
 			return 0;
 			break;
@@ -112,17 +105,19 @@ bool input() {
 			dispwin = &get<0>(windows);
 			break;
 		case '2':
-			//dispwin = get<1>(windows);
+			dispwin = &get<1>(windows);
 			break;
 		case '3':
-			//dispwin = get<2>(windows);
+			//dispwin = &get<2>(windows);
 			break;
 		case '4':
-			//dispwin = get<3>(windows);
+			//dispwin = &get<3>(windows);
 			break;
 
 		case ERR:
 			break;
+		default:
+			dispwin->control(in);
 	}
 
 	drawwin();

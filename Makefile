@@ -9,10 +9,11 @@ CURSESFLAGS	= -lncurses
 SRC = \
 			helperfunctions.cpp \
 			Show.cpp \
-			Playlist.cpp \
 			Player.cpp \
-			PlaylistWindow.cpp \
+			Playlist.cpp \
 			Window.cpp \
+			PlaylistWindow.cpp \
+			Settings.cpp \
 			ncurses.cpp
 
 OBJS = $(SRC:.cpp=.o)

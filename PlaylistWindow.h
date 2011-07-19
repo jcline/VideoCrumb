@@ -14,15 +14,15 @@ class PlaylistWindow : public Window {
 		Playlist playlist;
 
 		PlaylistWindow(){}
-		PlaylistWindow(WINDOW* w, std::string n = "") : Window(w,n) {}
-		PlaylistWindow(WINDOW* w, Playlist& p, std::string n = "");
-		PlaylistWindow(const PlaylistWindow& p);
-		PlaylistWindow(const Window& w) : Window(w.window, w.name) {}
+		PlaylistWindow(WINDOW* w);
+		PlaylistWindow(WINDOW* w, Playlist& p);
 
 		~PlaylistWindow(){}
 
+		void command(const std::string& s);
+		void control(const int c);
 		void drawit();
-		void input(std::string s);
+		void input(std::string& s);
 };
 
 #endif
