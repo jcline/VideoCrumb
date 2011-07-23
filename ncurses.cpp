@@ -5,12 +5,13 @@
 #include "ncurses.h"
 #include "term.h"
 
-#include "Show.h"
-#include "Playlist.h"
+#include "Color.h"
 #include "Player.h"
-#include "Window.h"
+#include "Playlist.h"
 #include "PlaylistWindow.h"
 #include "Settings.h"
+#include "Show.h"
+#include "Window.h"
 
 using std::get;
 using std::string;
@@ -48,8 +49,10 @@ int main( int argc, char **argv) {
 		PlaylistWindow p = windows[0];
 	}*/
 
-	windows = decltype(windows) ( PlaylistWindow(newwin(0,0,1,0)),
-		 Settings(newwin(0,0,1,0))	);
+	Color colormanager;
+	colormanager.add("red", COLOR_RED, COLOR_BLACK);
+	windows = decltype(windows) ( PlaylistWindow(newwin(0,0,1,0),colormanager),
+		 Settings(newwin(0,0,1,0),colormanager)	);
 	winnames = "Playlist Shows Edit Settings";
 
 	dispwin = &get<0>(windows);

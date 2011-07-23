@@ -8,6 +8,7 @@ CURSESFLAGS	= -lncurses
 
 SRC = \
 			helperfunctions.cpp \
+			Color.cpp \
 			Show.cpp \
 			Player.cpp \
 			Playlist.cpp \

@@ -51,4 +51,6 @@ void Playlist::remove(size_t pos) {
 		items.erase(items.begin()+pos);
 }
 
-
+const size_t Playlist::size() {
+	return items.size();
+}

@@ -31,6 +31,7 @@ class Playlist {
 		std::string print();
 		std::string print(size_t pos);
 		void remove(size_t pos);
+		const size_t size();
 
 	private:
 		bool changed;
