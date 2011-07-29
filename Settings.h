@@ -8,11 +8,11 @@
 #include "Player.h"
 #include "Window.h"
 
-class Settings : public Window{
+class SettingsWindow : public Window{
 	public:
-		Settings() {}
-		Settings(WINDOW* w, Color& cm);
-		~Settings() {}
+		SettingsWindow() {}
+		SettingsWindow(WINDOW* w, Color& cm);
+		~SettingsWindow() {}
 
 		void command(const std::string& s);
 		void control(const int c);

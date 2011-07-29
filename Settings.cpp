@@ -3,21 +3,21 @@
 #include "Color.h"
 #include "ncurses.h"
 #include "Player.h"
-#include "Settings.h"
+#include "SettingsWindow.h"
 
 using std::string;
 
-Settings::Settings(WINDOW* w, Color& cm) :
+SettingsWindow::SettingsWindow(WINDOW* w, Color& cm) :
  	Window(w,cm) {
 }
 
-void Settings::command(const string& s) {
+void SettingsWindow::command(const string& s) {
 }
 
-void Settings::control(const int c) {
+void SettingsWindow::control(const int c) {
 }
 
-void Settings::drawit() {
+void SettingsWindow::drawit() {
 	werase(window);
 	wrefresh(window);
 }
