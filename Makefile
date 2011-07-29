@@ -23,10 +23,7 @@ SRC = \
 OBJS = $(SRC:.cpp=.o)
 
 ncurses: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
-
-.h.o:
-	$(CXX) $(CXXFLAGS) $(LFLAGS) -c $< -o $@
+	$(LINKER) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
 
 clean:
-	rm $(OBJS) ncurses.o ncurses
+	rm $(OBJS) ncurses
