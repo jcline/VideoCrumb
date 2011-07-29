@@ -3,8 +3,8 @@ CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -o
-CURSESFLAGS	= -lncurses
+LFLAGS		= -lboost_system -lboost_filesystem 
+CURSESFLAGS	= -lncurses 
 
 SRC = \
 			helperfunctions.cpp \
@@ -22,10 +22,10 @@ SRC = \
 OBJS = $(SRC:.cpp=.o)
 
 ncurses: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(CURSESFLAGS) $(OBJS) -o $@
+	$(CXX) $(CXXFLAGS) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
 
 .h.o:
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(LFLAGS) -c $< -o $@
 
 clean:
 	rm $(OBJS) ncurses.o ncurses

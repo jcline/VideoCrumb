@@ -3,12 +3,25 @@
 
 using std::string;
 
-/*
-Show::Show(string& f, string& n, showtype t, size_t w) :
-	file(f), type(t), watched(w) {
-	n = (n == "") ? f : n;
+string pretty(showtype t) {
+	switch(t) {
+		case COMMENTARY:
+			return "COMMENTARY";
+			break;
+		case EPISODE:
+			return "EPISODE";
+			break;
+		case MOVIE:
+			return "MOVIE";
+			break;
+		case SPECIAL:
+			return "SPECIAL";
+			break;
+		default:
+			return "ERROR";
+			break;
+	}
 }
-*/
 
 Show::Show(const Show& other) {
 	name = other.name;
@@ -24,5 +37,9 @@ Show::Show(Show& other) {
 
 string Show::print() {
 	return name;
+}
+
+string Show::printdetail() {
+	return name + '\n' + pretty(type) + ' ' + file; 
 }
 

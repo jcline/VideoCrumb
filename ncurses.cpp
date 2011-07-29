@@ -75,6 +75,8 @@ int main( int argc, char **argv) {
 
 	endwin();
 
+	plc.savedb();
+
 	return 0;
 }
 
