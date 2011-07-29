@@ -1,6 +1,7 @@
 #ifndef SHOW_H
 #define SHOW_H
 
+#include <iostream>
 #include <string>
 
 enum showtype{ 
@@ -23,7 +24,9 @@ class Show {
 		Show(const Show& other);
 		Show(Show& other);
 		std::string print();
-		std::string printdetail();
+		void printdetail(std::ostream& o);
+
+		static showtype gettype(const std::string& t);
 
 
 	private:

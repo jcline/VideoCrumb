@@ -1,6 +1,9 @@
-#include "Show.h"
+#include<iostream>
 #include <string>
 
+#include "Show.h"
+
+using std::ostream;
 using std::string;
 
 string pretty(showtype t) {
@@ -23,6 +26,22 @@ string pretty(showtype t) {
 	}
 }
 
+showtype Show::gettype(const string& t) {
+	if(t == "COMMENTARY") {
+		return COMMENTARY;
+	}
+	else if(t == "EPISODE") {
+		return EPISODE;
+	}
+	else if(t == "MOVIE") {
+		return MOVIE;
+	}
+	else if(t == "SPECIAL") {
+		return SPECIAL;
+	}
+	return EPISODE;
+}
+
 Show::Show(const Show& other) {
 	name = other.name;
 	file = other.file;
@@ -39,7 +58,7 @@ string Show::print() {
 	return name;
 }
 
-string Show::printdetail() {
-	return name + '\n' + pretty(type) + ' ' + file; 
+void Show::printdetail(ostream& o) {
+	o << name << '\n' << watched << ' ' << pretty(type) << ' ' << file;
 }
 

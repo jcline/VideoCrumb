@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -14,6 +15,7 @@
 #include "ShowsWindow.h"
 #include "Window.h"
 
+using std::cerr;
 using std::get;
 using std::string;
 using std::tuple;
@@ -38,6 +40,12 @@ tuple<PlaylistWindow,ShowsWindow,Settings> windows;
 string winnames;
 
 int main( int argc, char **argv) {
+
+	if(!plc.loaddb()) {
+		cerr << "Failed to read database\n";
+		return 1;
+	}
+
 
 	setlocale(LC_ALL, "");
 
