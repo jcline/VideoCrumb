@@ -9,8 +9,10 @@
 #include "Color.h"
 #include "Player.h"
 #include "Playlist.h"
+#include "PlaylistController.h"
 #include "PlaylistWindow.h"
-#include "Settings.h"
+#include "SettingsController.h"
+#include "SettingsWindow.h"
 #include "Show.h"
 #include "ShowsWindow.h"
 #include "Window.h"
@@ -29,8 +31,9 @@ void switchwin(const string& name);
 
 Player player;
 PlaylistController plc;
+SettingsController slc;
 Window* dispwin;
-tuple<PlaylistWindow,ShowsWindow,Settings> windows;
+tuple<PlaylistWindow,ShowsWindow,SettingsWindow> windows;
 
 // Macros to make it easy to change window ordering
 #define PLAYLISTWINDOW 0
@@ -63,7 +66,7 @@ int main( int argc, char **argv) {
 	windows = decltype(windows) ( 
 		PlaylistWindow(newwin(0,0,1,0), colormanager, player),
 		ShowsWindow(newwin(0,0,1,0), colormanager),
-		Settings(newwin(0,0,1,0),colormanager)
+		SettingsWindow(newwin(0,0,1,0),colormanager)
 	);
 
 	// Window titlebar

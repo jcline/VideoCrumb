@@ -15,7 +15,8 @@ SRC = \
 			PlaylistController.cpp \
 			Window.cpp \
 			PlaylistWindow.cpp \
-			Settings.cpp \
+			SettingsController.cpp \
+			SettingsWindow.cpp \
 			ShowsWindow.cpp \
 			ncurses.cpp
 
