@@ -5,18 +5,18 @@
 
 #include "Color.h"
 #include "ncurses.h"
+#include "Player.h"
 #include "Playlist.h"
+#include "PlaylistController.h"
 #include "Show.h"
 #include "Window.h"
 
+extern PlaylistController plc;
 
 class PlaylistWindow : public Window {
 	public:
-		Playlist playlist;
-
 		PlaylistWindow(){}
-		PlaylistWindow(WINDOW* w, Color& cm);
-		PlaylistWindow(WINDOW* w, Color& cm, Playlist& p);
+		PlaylistWindow(WINDOW* w, Color& cm, Player& p);
 
 		~PlaylistWindow(){}
 
@@ -25,10 +25,11 @@ class PlaylistWindow : public Window {
 		void drawit();
 
 	private:
-		decltype(playlist.begin()) selection;
+		Player* player;
+		decltype(plc.getselection()->begin()) selection;
 		unsigned int selectionoffset;
 
-		void addshow(std::string& name, std::string& file, unsigned short type = 0);
+		void addshow(std::string& name, std::string& file, showtype type = EPISODE);
 
 };
 

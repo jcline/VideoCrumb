@@ -2,6 +2,7 @@
 
 #include "Color.h"
 #include "ncurses.h"
+#include "Player.h"
 #include "Settings.h"
 
 using std::string;

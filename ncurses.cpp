@@ -11,6 +11,7 @@
 #include "PlaylistWindow.h"
 #include "Settings.h"
 #include "Show.h"
+#include "ShowsWindow.h"
 #include "Window.h"
 
 using std::get;
@@ -21,10 +22,18 @@ using std::vector;
 void draw();
 void drawwin();
 bool input();
-string& strinput(const char* prepend = "");
+string* strinput(const char* prepend = "");
+void switchwin(const string& name);
 
+Player player;
+PlaylistController plc;
 Window* dispwin;
-tuple<PlaylistWindow,Settings> windows;
+tuple<PlaylistWindow,ShowsWindow,Settings> windows;
+
+// Macros to make it easy to change window ordering
+#define PLAYLISTWINDOW 0
+#define SHOWSWINDOW 1
+#define SETTINGSWINDOW 2
 
 string winnames;
 
@@ -38,27 +47,27 @@ int main( int argc, char **argv) {
 	keypad( stdscr, TRUE );
 	curs_set(0);
 
-	/*
-	{ // We don't want to keep around names any longer than necessary
-		string names[] = {"Playlist", "Shows", "Edit", "Settings"}; 
-		for(string s: names) {
-			windows.( Window(newwin(0,0,1,0), s) );
-			keypad(windows.back().window, TRUE);
-		}
-
-		PlaylistWindow p = windows[0];
-	}*/
-
+	// Setup colors
 	Color colormanager;
 	colormanager.add("red", COLOR_RED, COLOR_BLACK);
-	windows = decltype(windows) ( PlaylistWindow(newwin(0,0,1,0),colormanager),
-		 Settings(newwin(0,0,1,0),colormanager)	);
+
+	// Setup windows
+	windows = decltype(windows) ( 
+		PlaylistWindow(newwin(0,0,1,0), colormanager, player),
+		ShowsWindow(newwin(0,0,1,0), colormanager),
+		Settings(newwin(0,0,1,0),colormanager)
+	);
+
+	// Window titlebar
 	winnames = "Playlist Shows Edit Settings";
 
-	dispwin = &get<0>(windows);
-
+	// initial window to display
+	dispwin = &get<SHOWSWINDOW>(windows);
 
 	//TODO: deal with conf loading later
+	player.setplayer("mplayer ");
+	player.setarguments(" -vo vdpau ");
+	player.setlatearguments(" &> /dev/null ");
 
 	drawwin();
 	draw();
@@ -90,7 +99,7 @@ void drawwin() {
 */
 bool input() {
 	int in = getch();
-	string s;
+	string* s;
 
 	switch (in) {
 		case KEY_ENTER:
@@ -100,18 +109,19 @@ bool input() {
 
 		case ':':
 			s = strinput(":");
-			if(s.length() > 0)
+			if(s->length())
 			{} //TODO: interpret command
+			delete(s);
 			break;
 		
 		case '1':
-			dispwin = &get<0>(windows);
+			dispwin = &get<PLAYLISTWINDOW>(windows);
 			break;
 		case '2':
-			dispwin = &get<1>(windows);
+			dispwin = &get<SHOWSWINDOW>(windows);
 			break;
 		case '3':
-			//dispwin = &get<2>(windows);
+			dispwin = &get<2>(windows);
 			break;
 		case '4':
 			//dispwin = &get<3>(windows);
@@ -130,7 +140,7 @@ bool input() {
 /*
 	Gets string input, location is the bottom of the given window.
 */
-string& strinput(const char* prepend) {
+string* strinput(const char* prepend) {
 	nocbreak();
 	echo();
 	curs_set(1);
@@ -152,6 +162,15 @@ string& strinput(const char* prepend) {
 	curs_set(0);
 	cbreak();
 	noecho();
-	return *str;
+	return str;
 }
 
+
+/*
+	Switches to the window with the given name.
+	@param name The name of the window to switch to.
+*/
+void switchwin(const string& name) {
+	if(name == "Playlist")
+		dispwin = &get<PLAYLISTWINDOW>(windows);
+}

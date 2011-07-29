@@ -4,12 +4,26 @@
 using std::string;
 using std::stringstream;
 
-void Playlist::add(Show s) {
+Playlist::Playlist() {changed = true;}
+
+Playlist::Playlist(string& n) : name(n) {changed = true;}
+
+Playlist::Playlist(string& n, const Playlist& b) :
+	name(n), items(b.items) {
+	changed = true;
+}
+
+Playlist::Playlist(string& n, Show& s) :
+	name(n) {
+	add(s);
+}
+
+void Playlist::add(Show& s) {
 	items.push_back(s);
 	changed = true;
 }
 
-void Playlist::add(Show s, size_t pos) {
+void Playlist::add(Show& s, size_t pos) {
 	if(pos < items.size())
 		items.insert(items.begin()+pos, s);
 	changed = true;
@@ -26,9 +40,16 @@ auto Playlist::end() -> decltype(items.end()) {
 string Playlist::print() {
 	if(changed) {
 		stringstream out;
+		/*
 		size_t i = 0;
 		for(auto it = items.begin(); it < items.end(); ++it, ++i)
 			out << i+1 << ": " << it->print() << '\n';
+		*/
+
+		size_t played = 0;
+		out << '[' << played << '/' << items.size() << "]  " << name;
+
+
 		printstr = out.str();
 		changed = false;
 	}

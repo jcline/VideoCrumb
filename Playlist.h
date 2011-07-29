@@ -7,35 +7,28 @@
 #include <vector>
 
 class Playlist {
-	public:
+	private:
+		bool changed;
+		std::string printstr, name;
 		std::vector<Show> items;
 
-		Playlist(const Playlist& b) {
-			items = b.items;
-			changed = true;
-		}
+	public:
 
-		Playlist(Show& s) {
-			add(s);
-		}
-
-		Playlist() : changed(true) {
-		}
+		Playlist();
+		Playlist(std::string& n);
+		Playlist(std::string& n, const Playlist& b);
+		Playlist(std::string& n, Show& s);
 
 		~Playlist() {}
 
-		void add(Show s);
-		void add(Show s, size_t pos);
+		void add(Show& s);
+		void add(Show& s, size_t pos);
 		auto begin() -> decltype(items.end());
 		auto end() -> decltype(items.end());
 		std::string print();
 		std::string print(size_t pos);
 		void remove(size_t pos);
 		const size_t size();
-
-	private:
-		bool changed;
-		std::string printstr;
 
 };
 

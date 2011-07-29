@@ -12,9 +12,11 @@ SRC = \
 			Show.cpp \
 			Player.cpp \
 			Playlist.cpp \
+			PlaylistController.cpp \
 			Window.cpp \
 			PlaylistWindow.cpp \
 			Settings.cpp \
+			ShowsWindow.cpp \
 			ncurses.cpp
 
 OBJS = $(SRC:.cpp=.o)

@@ -5,6 +5,7 @@
 
 #include "Color.h"
 #include "ncurses.h"
+#include "Player.h"
 
 class Window{
 	public:
