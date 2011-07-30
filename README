@@ -4,3 +4,14 @@ An ncurses video manager. VideoCrumb keeps track of the shows you watch so
 you don't have to.
 
 Currently it has the bare minimum level of, mostly hardcoded, functionality.
+Written in C++ and using some C++0x features.
+
+Dependencies:
+	ncurses
+	boost
+
+Tested with:
+  gcc 4.6+
+  boost 1.46+
+  ncurses 5.9+
+
