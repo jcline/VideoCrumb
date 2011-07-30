@@ -2,6 +2,7 @@
 #define PLAYLIST_H
 
 #include "Show.h"
+#include <ostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -26,6 +27,7 @@ class Playlist {
 		auto begin() -> decltype(items.end());
 		auto end() -> decltype(items.end());
 		std::string print();
+		void printdetail(std::ostream& o);
 		std::string print(size_t pos);
 		void remove(size_t pos);
 		const size_t size();

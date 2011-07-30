@@ -94,19 +94,12 @@ bool PlaylistController::loaddb() {
 	ifstream db;
 	db.open(sc.data);
 
-	char discard;
 	size_t played, size, watched;
 	string name, type, file;
 	
-	while(!db.fail()) {
-		db >> discard;
-		if(db.fail())
-			break;
-		db >> played >> discard >> size;
-		db >> discard;
-		db >> name;
+	while(db.good()) {
+		db >> played >> size >> name;
 		if(db.fail()) {
-			ret = false;
 			goto cleanup;
 		}
 
@@ -114,7 +107,6 @@ bool PlaylistController::loaddb() {
 		for(size_t i = 0; i < size; ++i) {
 			db >> name >> watched >> type >> file;
 			if(db.fail()) {
-			cout << "cat\n";
 				ret = false;
 				goto cleanup;
 			}
@@ -140,7 +132,8 @@ bool PlaylistController::savedb() {
 	db.open(sc.data);
 
 	for(Playlist& p : playlists) {
-		db << p.print() << '\n';
+		p.printdetail(db);
+		db << '\n';
 		for(Show& s : p) {
 			s.printdetail(db);
 			db<< '\n';

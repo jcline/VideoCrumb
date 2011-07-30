@@ -1,6 +1,9 @@
 #include "Playlist.h"
+#include <ostream>
+#include <sstream>
 #include <string>
 
+using std::ostream;
 using std::string;
 using std::stringstream;
 
@@ -38,17 +41,10 @@ auto Playlist::end() -> decltype(items.end()) {
 }
 
 string Playlist::print() {
+	stringstream out;
 	if(changed) {
-		stringstream out;
-		/*
-		size_t i = 0;
-		for(auto it = items.begin(); it < items.end(); ++it, ++i)
-			out << i+1 << ": " << it->print() << '\n';
-		*/
-
 		size_t played = 0;
 		out << '[' << played << '/' << items.size() << "]  " << name;
-
 
 		printstr = out.str();
 		changed = false;
@@ -66,6 +62,10 @@ string Playlist::print(size_t pos) {
 	return "";
 }
 		
+void Playlist::printdetail(ostream& o) {
+	size_t played = 0;
+	o << played << ' ' << items.size() << " " << name;
+}
 
 void Playlist::remove(size_t pos) {
 	if(pos < items.size())

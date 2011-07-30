@@ -30,7 +30,7 @@ SettingsController::SettingsController(path c, path d) {
 		p = getenv("XDG_DATA_HOME");
 		if(p) {
 			data = p;
-			data /= "AM";
+			data /= "AM/dbnew";
 		}
 		else {
 			cerr << "Could not read $XDG_CONFIG_HOME, please use --data-dir\n";
