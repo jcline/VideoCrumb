@@ -18,5 +18,4 @@ Tested with (x86_64):
   ncurses 5.9
 
 Known limitations:
-	Does not support spaces in filenames yet.
-	
+	?	
