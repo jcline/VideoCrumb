@@ -31,16 +31,22 @@ void switchwin(const string& name);
 
 Player player;
 PlaylistController plc;
-SettingsController slc;
+SettingsController sc;
 Window* dispwin;
-tuple<PlaylistWindow,ShowsWindow,SettingsWindow> windows;
+// No stupid polymorphism games to stick the windows into a vector
+tuple<
+  PlaylistWindow,
+	ShowsWindow,
+	SettingsWindow
+> windows;
 
 // Macros to make it easy to change window ordering
 #define PLAYLISTWINDOW 0
 #define SHOWSWINDOW 1
 #define SETTINGSWINDOW 2
 
-string winnames;
+vector<string> winnames; // Since there is no good way to iterate over a tuple
+auto winsel = winnames.begin();
 
 int main( int argc, char **argv) {
 
@@ -70,10 +76,16 @@ int main( int argc, char **argv) {
 	);
 
 	// Window titlebar
-	winnames = "Playlist Shows Edit Settings";
+	winnames = {
+		"Playlist", 
+		"Shows", 
+		"Edit", 
+		"Settings"
+	};
 
 	// initial window to display
 	dispwin = &get<SHOWSWINDOW>(windows);
+	winsel = winnames.begin() + SHOWSWINDOW;
 
 	//TODO: deal with conf loading later
 	player.setplayer("mplayer ");
@@ -96,7 +108,12 @@ int main( int argc, char **argv) {
 */
 void draw() {
 	move(0,0);
-	printw("%s", winnames.c_str());
+	for(string &n : winnames) {
+		if(n == *winsel)
+			printw("*%s ", n.c_str());
+		else
+			printw("%s ",n.c_str());
+	}
 	refresh();
 }
 
@@ -129,15 +146,22 @@ bool input() {
 		
 		case '1':
 			dispwin = &get<PLAYLISTWINDOW>(windows);
+			winsel = winnames.begin() + PLAYLISTWINDOW;
+			draw();
 			break;
 		case '2':
 			dispwin = &get<SHOWSWINDOW>(windows);
+			winsel = winnames.begin() + SHOWSWINDOW;
+			draw();
 			break;
 		case '3':
-			dispwin = &get<2>(windows);
+			dispwin = &get<SETTINGSWINDOW>(windows);
+			winsel = winnames.begin() + SETTINGSWINDOW;
+			draw();
 			break;
 		case '4':
 			//dispwin = &get<3>(windows);
+			draw();
 			break;
 
 		case ERR:

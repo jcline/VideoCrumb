@@ -14,9 +14,10 @@ using std::string;
 using std::vector;
 
 using boost::filesystem::ofstream;
+using boost::filesystem::ifstream;
 using namespace boost::filesystem;
 
-extern SettingsController plc;
+extern SettingsController sc;
 
 PlaylistController::PlaylistController() {
 	changed = true;
@@ -91,7 +92,7 @@ bool PlaylistController::loaddb() {
 	bool ret = true;
 
 	ifstream db;
-	db.open(plc.data);
+	db.open(sc.data);
 
 	char discard;
 	size_t played, size, watched;
@@ -136,7 +137,7 @@ cleanup:
 
 bool PlaylistController::savedb() {
 	ofstream db;
-	db.open(plc.data);
+	db.open(sc.data);
 
 	for(Playlist& p : playlists) {
 		db << p.print() << '\n';

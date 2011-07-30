@@ -7,10 +7,9 @@ class SettingsController {
 	private:
 		typedef boost::filesystem::path bfp;
 	public:
-		bfp config, data;
+		bfp config, data, home;
 
-		SettingsController(bfp config = bfp(),
-			 bfp data = bfp());
+		SettingsController(bfp c = "", bfp d = "");
 };
 
 #endif
