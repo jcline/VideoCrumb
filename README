@@ -1,0 +1,6 @@
+VideoCrumb
+
+An ncurses video manager. VideoCrumb keeps track of the shows you watch so
+you don't have to.
+
+Currently it has the bare minimum level of, mostly hardcoded, functionality.
