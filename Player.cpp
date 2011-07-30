@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <string>
+#include <iostream>
 
 using std::string;
 
@@ -8,7 +9,7 @@ string Player::exportsettings() {
 }
 
 int Player::play(const string& filename) {
-	return system( (command + args + filename + late).c_str());
+	return system( (command + args + "\"" + filename + "\"" + late).c_str());
 }
 
 void Player::setarguments(string a) {

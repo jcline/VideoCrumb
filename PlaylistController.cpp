@@ -87,25 +87,31 @@ void PlaylistController::offsetdispselection(size_t o) {
 /**
 	Database loading and saving
 */
-
 bool PlaylistController::loaddb() {
 	bool ret = true;
 
 	ifstream db;
 	db.open(sc.data);
 
-	size_t played, size, watched;
+	size_t played, size;
+	unsigned int watched;
 	string name, type, file;
 	
+	//TODO: Better error checking
 	while(db.good()) {
-		db >> played >> size >> name;
+		db >> played >> size;
+		db.ignore();
+		getline(db, name);
 		if(db.fail()) {
 			goto cleanup;
 		}
 
 		Playlist p(name);
 		for(size_t i = 0; i < size; ++i) {
-			db >> name >> watched >> type >> file;
+			db >> watched >> type;
+			db.ignore(100,'\n');
+			getline(db, name);
+			getline(db, file);
 			if(db.fail()) {
 				ret = false;
 				goto cleanup;
@@ -131,6 +137,7 @@ bool PlaylistController::savedb() {
 	ofstream db;
 	db.open(sc.data);
 
+	//TODO: Better error checking
 	for(Playlist& p : playlists) {
 		p.printdetail(db);
 		db << '\n';

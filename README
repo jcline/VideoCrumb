@@ -9,9 +9,14 @@ Written in C++ and using some C++0x features.
 Dependencies:
 	ncurses
 	boost
+		filesystem
 
-Tested with:
-  gcc 4.6+
-  boost 1.46+
-  ncurses 5.9+
+Tested with (x86_64):
+  gcc 4.6
+	GNU make 3.82
+  boost 1.46
+  ncurses 5.9
 
+Known limitations:
+	Does not support spaces in filenames yet.
+	

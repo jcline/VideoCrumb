@@ -18,19 +18,20 @@ class Show {
 		showtype type;
 
 		Show(std::string f = std::string(), std::string n = std::string(),
-			showtype t = EPISODE, size_t w = 0) : file(f), name(n), type(t), watched(w) {
+			showtype t = EPISODE, unsigned int w = 0) :
+		 	file(f), name(n), type(t), watched(w) {
 		}
 
 		Show(const Show& other);
 		Show(Show& other);
 		std::string print();
 		void printdetail(std::ostream& o);
+		void watch();
 
 		static showtype gettype(const std::string& t);
 
-
 	private:
-		size_t watched;
+		unsigned int watched;
 };
 
 #endif 

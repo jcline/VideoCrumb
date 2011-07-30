@@ -1,10 +1,12 @@
 #include<iostream>
+#include <sstream>
 #include <string>
 
 #include "Show.h"
 
 using std::ostream;
 using std::string;
+using std::stringstream;
 
 string pretty(showtype t) {
 	switch(t) {
@@ -55,10 +57,15 @@ Show::Show(Show& other) {
 }
 
 string Show::print() {
-	return name;
+	stringstream out;
+	out << name << " [" << watched << ']';
+	return out.str();
 }
 
 void Show::printdetail(ostream& o) {
-	o << name << '\n' << watched << ' ' << pretty(type) << ' ' << file;
+	o << watched << ' ' << pretty(type) << '\n' << name << '\n' << file;
 }
 
+void Show::watch() {
+	++watched;
+}

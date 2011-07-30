@@ -51,8 +51,10 @@ void PlaylistWindow::control(const int c) {
 			break;
 		case KEY_RIGHT:
 		case 'p':
-			if(plc.size())
+			if(plc.size()) {
 				player->play(selection->file);
+				selection->watch();
+			}
 		case 'r':
 			//TODO: mark last played file
 		default:

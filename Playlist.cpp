@@ -64,7 +64,7 @@ string Playlist::print(size_t pos) {
 		
 void Playlist::printdetail(ostream& o) {
 	size_t played = 0;
-	o << played << ' ' << items.size() << " " << name;
+	o << played << ' ' << items.size() << ' ' << name;
 }
 
 void Playlist::remove(size_t pos) {
