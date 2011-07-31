@@ -7,7 +7,6 @@ LFLAGS		= -lboost_system -lboost_filesystem
 CURSESFLAGS	= -lncurses 
 
 SRC = \
-			helperfunctions.cpp \
 			Color.cpp \
 			Show.cpp \
 			Player.cpp \
@@ -26,4 +25,4 @@ videocrumb: $(OBJS)
 	$(LINKER) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
 
 clean:
-	rm $(OBJS) ncurses
+	rm $(OBJS) videocrumb

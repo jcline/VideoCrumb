@@ -20,7 +20,6 @@ using namespace boost::filesystem;
 extern SettingsController sc;
 
 PlaylistController::PlaylistController() {
-	changed = true;
 }
 
 void PlaylistController::addplaylist(Playlist& pl, const int pos) {
