@@ -22,7 +22,7 @@ SRC = \
 
 OBJS = $(SRC:.cpp=.o)
 
-ncurses: $(OBJS)
+videocrumb: $(OBJS)
 	$(LINKER) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
 
 clean:
