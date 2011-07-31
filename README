@@ -4,12 +4,14 @@ An ncurses video manager. VideoCrumb keeps track of the shows you watch so
 you don't have to.
 
 Currently it has the bare minimum level of, mostly hardcoded, functionality.
-Written in C++ and using some C++0x features.
+Written in C++ and using some C++0x features. See the github wiki for a
+feature roadmap.
 
 Dependencies:
 	ncurses
 	boost
 		filesystem
+		program_options
 
 Tested with (x86_64):
   gcc 4.6
@@ -17,5 +19,21 @@ Tested with (x86_64):
   boost 1.46
   ncurses 5.9
 
-Known limitations:
-	?	
+Compilation:
+	$ make
+
+Known bugs:
+	Reading # of times a show has been watched from database always gives 0
+
+Usage:
+	./videocrumb
+
+Controls:
+	On any window, press ':' to enter command mode (like vim)
+	Shows:
+		<return>: add a new playlist
+		<right arrow>: view selected playlist
+	Playlist:
+		<return>: add a new show
+		<right arrow>, p: play selected show
+	Settings:
