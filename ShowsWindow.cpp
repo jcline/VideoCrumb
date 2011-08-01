@@ -15,8 +15,7 @@ ShowsWindow::ShowsWindow(WINDOW* w, Color& cm) : Window(w,cm) {
 }
 
 void ShowsWindow::addplaylist(string& n) {
-	Playlist pl(n);
-	plc.addplaylist(pl);
+	plc.autoaddplaylist(n);
 }
 
 void ShowsWindow::command(const string& s) {

@@ -1,6 +1,7 @@
 #ifndef PLAYLISTCONTROLLER_H
 #define PLAYLISTCONTROLLER_H
 
+#include "boost/filesystem.hpp"
 #include <vector>
 
 #include "Playlist.h"
@@ -25,6 +26,12 @@ class PlaylistController {
 		 * @param pos the position to add it to, -1 to add to end
 		 */
 		void addplaylist(Playlist& pl, const int pos = -1);
+
+		/**
+		 * Create a playlist from a given path.
+		 * @param p the path to the video files
+		 */
+		void autoaddplaylist(boost::filesystem::path p);
 
 		/**
 		 * Get an iterator to the beginning/end of the playlists.

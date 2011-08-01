@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -10,6 +11,7 @@
 #include "SettingsController.h"
 
 using std::cout;
+using std::map;
 using std::string;
 using std::vector;
 
@@ -35,6 +37,30 @@ void PlaylistController::addplaylist(Playlist& pl, const int pos) {
 		dispoffset = pos;
 		dispselection = begin() + dispoffset;
 	}
+}
+
+void PlaylistController::autoaddplaylist(path p) {
+	if(!exists(p))
+		return;
+	if(!is_directory(p))
+		return;
+
+	string n = p.filename().string(), name;
+	if(!n.length())
+		return;
+
+	Playlist pl(n);
+	map<string,string> shows;
+
+	for(auto i = directory_iterator(p); i != directory_iterator(); ++i) {
+		shows[i->path().filename().string()] = i->path().string();
+	}
+
+	for(auto &i: shows) {
+		Show s(i.second, i.first, EPISODE);
+		pl.add(s);
+	}
+	addplaylist(pl);
 }
 
 auto PlaylistController::begin() -> decltype(playlists.begin()) {
@@ -111,6 +137,7 @@ bool PlaylistController::loaddb() {
 			db.ignore(100,'\n');
 			getline(db, name);
 			getline(db, file);
+			// The file was incorrectly formatted
 			if(db.fail()) {
 				ret = false;
 				goto cleanup;

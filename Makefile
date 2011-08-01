@@ -1,5 +1,5 @@
 CXX			= g++
-CXXFLAGS		= -Wall --std=c++0x ${OPTFLAG}
+CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
