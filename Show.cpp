@@ -48,12 +48,14 @@ Show::Show(const Show& other) {
 	name = other.name;
 	file = other.file;
 	type = other.type;
+	watched = other.watched;
 }
 
 Show::Show(Show& other) {
 	name = other.name;
 	file = other.file;
 	type = other.type;
+	watched = other.watched;
 }
 
 string Show::print() {
