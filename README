@@ -23,7 +23,7 @@ Compilation:
 	$ make
 
 Known bugs:
-	Reading # of times a show has been watched from database always gives 0
+	?
 
 Usage:
 	./videocrumb
