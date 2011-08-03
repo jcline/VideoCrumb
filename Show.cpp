@@ -71,3 +71,7 @@ void Show::printdetail(ostream& o) {
 void Show::watch() {
 	++watched;
 }
+
+const unsigned int Show::getwatched() {
+	return watched;
+}

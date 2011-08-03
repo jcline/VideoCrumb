@@ -38,6 +38,10 @@ auto Playlist::begin() -> decltype(items.end()) {
 	return items.begin();
 }
 
+void Playlist::change() {
+	changed = true;
+}
+
 void Playlist::deleteselection(decltype(items.begin()) s) {
 	items.erase(s);
 }
@@ -46,11 +50,27 @@ auto Playlist::end() -> decltype(items.end()) {
 	return items.end();
 }
 
+unsigned int Playlist::played() {
+	unsigned int ret = 0;
+	if(changed) {
+		for(Show &s: items) {
+			if(s.getwatched())
+				++ret;
+		}
+	}
+	return ret;
+}
+
 string Playlist::print() {
 	stringstream out;
 	if(changed) {
-		size_t played = 0;
-		out << '[' << played << '/' << items.size() << "]\t" << name;
+		out << '[' << played() << '/' << items.size() << "]";
+		auto len = out.str().length();
+		int dif = 10 - len;
+
+		for(;dif;--dif)
+			out << ' ';
+		out << name;
 
 		printstr = out.str();
 		changed = false;

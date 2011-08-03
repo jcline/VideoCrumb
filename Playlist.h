@@ -25,8 +25,10 @@ class Playlist {
 		void add(Show& s);
 		void add(Show& s, size_t pos);
 		auto begin() -> decltype(items.end());
+		void change();
 		void deleteselection(decltype(items.begin()) s);
 		auto end() -> decltype(items.end());
+		unsigned int played();
 		std::string print();
 		void printdetail(std::ostream& o);
 		std::string print(size_t pos);

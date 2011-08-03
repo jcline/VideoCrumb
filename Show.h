@@ -27,6 +27,7 @@ class Show {
 		std::string print();
 		void printdetail(std::ostream& o);
 		void watch();
+		const unsigned int getwatched();
 
 		static showtype gettype(const std::string& t);
 

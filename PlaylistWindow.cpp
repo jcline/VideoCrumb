@@ -48,6 +48,7 @@ void PlaylistWindow::control(const int c) {
 			if(plc.size()) {
 				player->play(selection->file);
 				selection->watch();
+				plc.getselection()->change();
 			}
 		case 'r':
 		case KEY_DOWN:
