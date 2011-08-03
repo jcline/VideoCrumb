@@ -65,6 +65,7 @@ string Playlist::print() {
 	stringstream out;
 	if(changed) {
 		out << '[' << played() << '/' << items.size() << "]";
+		// Make all the playlist names line up, assumes max # items 999
 		auto len = out.str().length();
 		int dif = 10 - len;
 
