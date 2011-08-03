@@ -30,6 +30,7 @@ class PlaylistWindow : public Window {
 		unsigned int selectionoffset;
 
 		void addshow(std::string& name, std::string& file, showtype type = EPISODE);
+		void del();
 
 };
 

@@ -34,6 +34,11 @@ class PlaylistController {
 		void autoaddplaylist(boost::filesystem::path p);
 
 		/**
+		 * Deletes the selected item.
+		 */
+		void deleteselected();
+		
+		/**
 		 * Get an iterator to the beginning/end of the playlists.
 		 */
 		auto begin() -> decltype(playlists.begin());

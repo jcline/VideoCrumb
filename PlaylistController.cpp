@@ -67,6 +67,8 @@ auto PlaylistController::begin() -> decltype(playlists.begin()) {
 	return playlists.begin();
 }
 
+void deleteselected() {}
+
 auto PlaylistController::end() -> decltype(playlists.end()) {
 	return playlists.end();
 }

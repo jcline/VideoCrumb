@@ -43,12 +43,6 @@ void PlaylistWindow::control(const int c) {
 				--selectionoffset;
 			}
 			break;
-		case KEY_DOWN:
-			if(plc.size() && selection != plc.getselection()->end()-1) {
-				++selection;
-				++selectionoffset;
-			}
-			break;
 		case KEY_RIGHT:
 		case 'p':
 			if(plc.size()) {
@@ -56,10 +50,34 @@ void PlaylistWindow::control(const int c) {
 				selection->watch();
 			}
 		case 'r':
-			//TODO: mark last played file
+		case KEY_DOWN:
+			if(plc.size() && selection != plc.getselection()->end()-1) {
+				++selection;
+				++selectionoffset;
+			}
+			break;
+		case 'd':
+			del();
+			break;
+		case 'w':
+			selection->watch();
+			break;
 		default:
 			break;
 	}	
+}
+
+void PlaylistWindow::del() {
+	string* s = strinput("Are you sure you want to delete this item? [y/N] ");
+	if(s->length()) {
+		if(*s == "y" || *s == "Y") {
+			plc.getselection()->deleteselection(selection);
+			delete(s);
+			selection = plc.getselection()->begin();
+			auto i = selection + selectionoffset, j = plc.getselection()->end();
+			selection = (i < j) ? i : j-1;
+		}
+	}
 }
 
 void PlaylistWindow::drawit() {
@@ -67,16 +85,20 @@ void PlaylistWindow::drawit() {
 	unsigned int row = 0, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
 
+	if(selection < plc.getselection()->begin() ||
+			selection >= plc.getselection()->end())
+		selection = plc.getselection()->begin();
+
 	if(plc.size()) {
 		for(auto i = plc.getselection()->begin();
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
 			if(selection == i) {
 				attron(COLOR_PAIR(colormanager->find("red")));
-				mvwprintw(window, row, 0, "*%d %s", ++count, i->print().c_str());
+				mvwprintw(window, row, 0, "*%d\t%s", ++count, i->print().c_str());
 				attroff(COLOR_PAIR(colormanager->find("red")));
 			}
 			else 
-				mvwprintw(window, row, 0, " %d %s", ++count, i->print().c_str());
+				mvwprintw(window, row, 0, " %d\t%s", ++count, i->print().c_str());
 		}
 	}
 

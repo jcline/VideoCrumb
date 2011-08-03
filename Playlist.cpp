@@ -29,11 +29,17 @@ void Playlist::add(Show& s) {
 void Playlist::add(Show& s, size_t pos) {
 	if(pos < items.size())
 		items.insert(items.begin()+pos, s);
+	else
+		add(s);
 	changed = true;
 }
 
 auto Playlist::begin() -> decltype(items.end()) {
 	return items.begin();
+}
+
+void Playlist::deleteselection(decltype(items.begin()) s) {
+	items.erase(s);
 }
 
 auto Playlist::end() -> decltype(items.end()) {
@@ -44,7 +50,7 @@ string Playlist::print() {
 	stringstream out;
 	if(changed) {
 		size_t played = 0;
-		out << '[' << played << '/' << items.size() << "]  " << name;
+		out << '[' << played << '/' << items.size() << "]\t" << name;
 
 		printstr = out.str();
 		changed = false;

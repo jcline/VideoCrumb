@@ -56,6 +56,7 @@ int main( int argc, char **argv) {
 	}
 
 
+	// Setup ncurses
 	setlocale(LC_ALL, "");
 
 	initscr();
@@ -92,8 +93,9 @@ int main( int argc, char **argv) {
 	player.setarguments(" -vo vdpau ");
 	player.setlatearguments(" &> /dev/null ");
 
-	drawwin();
+	// draw() must come before drawwin()
 	draw();
+	drawwin();
 	while(input());
 
 	endwin();
@@ -145,23 +147,16 @@ bool input() {
 			break;
 		
 		case '1':
-			dispwin = &get<PLAYLISTWINDOW>(windows);
-			winsel = winnames.begin() + PLAYLISTWINDOW;
-			draw();
+			switchwin("Playlist");
 			break;
 		case '2':
-			dispwin = &get<SHOWSWINDOW>(windows);
-			winsel = winnames.begin() + SHOWSWINDOW;
-			draw();
+			switchwin("Shows");
 			break;
 		case '3':
-			dispwin = &get<SETTINGSWINDOW>(windows);
-			winsel = winnames.begin() + SETTINGSWINDOW;
-			draw();
+			switchwin("Edit");
 			break;
 		case '4':
-			//dispwin = &get<3>(windows);
-			draw();
+			switchwin("Settings");
 			break;
 
 		case ERR:
@@ -208,6 +203,21 @@ string* strinput(const char* prepend) {
 	@param name The name of the window to switch to.
 */
 void switchwin(const string& name) {
-	if(name == "Playlist")
+	if(name == "Playlist") {
 		dispwin = &get<PLAYLISTWINDOW>(windows);
+		winsel = winnames.begin() + PLAYLISTWINDOW;
+	}
+	else if(name == "Shows") {
+		dispwin = &get<SHOWSWINDOW>(windows);
+		winsel = winnames.begin() + SHOWSWINDOW;
+	}
+	else if(0 && name == "Edit") {
+		//dispwin = &get<EDITWINDOW>(windows);
+		//winsel = winnames.begin() + EDITWINDOW;
+	}
+	else if(name == "Settings") {
+		dispwin = &get<SETTINGSWINDOW>(windows);
+		winsel = winnames.begin() + SETTINGSWINDOW;
+	}
+	draw();
 }
