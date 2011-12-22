@@ -205,18 +205,22 @@ string* strinput(const char* prepend) {
 void switchwin(const string& name) {
 	if(name == "Playlist") {
 		dispwin = &get<PLAYLISTWINDOW>(windows);
+		dispwin->selected();
 		winsel = winnames.begin() + PLAYLISTWINDOW;
 	}
 	else if(name == "Shows") {
 		dispwin = &get<SHOWSWINDOW>(windows);
+		dispwin->selected();
 		winsel = winnames.begin() + SHOWSWINDOW;
 	}
 	else if(0 && name == "Edit") {
 		//dispwin = &get<EDITWINDOW>(windows);
+		//dispwin->selected();
 		//winsel = winnames.begin() + EDITWINDOW;
 	}
 	else if(name == "Settings") {
 		dispwin = &get<SETTINGSWINDOW>(windows);
+		dispwin->selected();
 		winsel = winnames.begin() + SETTINGSWINDOW;
 	}
 	draw();

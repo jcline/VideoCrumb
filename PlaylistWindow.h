@@ -31,6 +31,7 @@ class PlaylistWindow : public Window {
 
 		void addshow(std::string& name, std::string& file, showtype type = EPISODE);
 		void del();
+		void selected();
 
 };
 

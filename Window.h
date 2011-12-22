@@ -19,6 +19,7 @@ class Window{
 		virtual void command(const std::string& s) {}
 		virtual void control(const int c) {}
 		virtual void drawit() {}
+		virtual void selected() {}
 
 };
 

@@ -88,21 +88,6 @@ void PlaylistWindow::drawit() {
 	unsigned int row = 0, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
 
-	/*
-	 We need this if because of the way windows get switched (switchwin()).
-	 When a window is switched, no callback happens to the selected window, so
-	 this window doesn't update the selection and selectionoffset values then,
-	 instead it does it here.
-
-	TODO: add a callback that switchwin() calls so we don't do this here anymore.
-	*/
-	if(selection < plc.getselection()->begin() ||
-			selection >= plc.getselection()->end())
-	{
-		selection = plc.getselection()->begin();
-		selectionoffset = 0;
-	}
-
 	size_t offset = 0;
 	if(plc.getselection()->size() > rows) {
 		size_t center = rows/2;
@@ -131,6 +116,15 @@ void PlaylistWindow::drawit() {
 	}
 
 	wrefresh(window);
+}
+
+void PlaylistWindow::selected() {
+	if(selection < plc.getselection()->begin() ||
+			selection >= plc.getselection()->end())
+	{
+		selection = plc.getselection()->begin();
+		selectionoffset = 0;
+	}
 }
 
 void PlaylistWindow::addshow(string& name, string& file, showtype type) {
