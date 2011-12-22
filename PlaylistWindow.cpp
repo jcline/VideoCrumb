@@ -85,8 +85,10 @@ void PlaylistWindow::del() {
 
 void PlaylistWindow::drawit() {
 	werase(window);
-	unsigned int row = 0, rows, cols, count = 0;
+	unsigned int row = 3, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
+
+	drawheaders(cols);
 
 	size_t offset = 0;
 	if(plc.getselection()->size() > rows) {
@@ -107,15 +109,25 @@ void PlaylistWindow::drawit() {
 			if(selection == i) {
 				wattr_on(window, COLOR_PAIR(colormanager->find("red")), NULL);
 				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
+				mvwprintw(window, row, cols - 3, "[%d]", i->getwatched());
 				wattr_off(window, COLOR_PAIR(colormanager->find("red")), NULL);
 			}
-			else 
+			else {
 				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
+				mvwprintw(window, row, cols - 3, "[%d]", i->getwatched());
+			}
 
 		}
 	}
 
 	wrefresh(window);
+}
+
+void PlaylistWindow::drawheaders(unsigned int cols) {
+	mvwhline(window, 0, 0, '-', cols);
+	mvwprintw(window, 1, 0, "#\tName");
+	mvwprintw(window, 1, cols - strlen("Watched"), "Watched");
+	mvwhline(window, 2, 0, '-', cols);
 }
 
 void PlaylistWindow::selected() {

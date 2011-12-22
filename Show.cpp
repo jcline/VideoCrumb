@@ -60,7 +60,7 @@ Show::Show(Show& other) {
 
 string Show::print() {
 	stringstream out;
-	out << name << " [" << watched << ']';
+	out << name;
 	return out.str();
 }
 

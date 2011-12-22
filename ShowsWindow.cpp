@@ -48,19 +48,26 @@ void ShowsWindow::control(const int c) {
 void ShowsWindow::drawit() {
 	werase(window);
 
-	unsigned int rows, cols, row = 0;
+	unsigned int rows, cols, row = 3;
 	getmaxyx(window,rows,cols);
+
+	drawheaders(cols);
 
 	for(auto i = plc.begin(); i < plc.end() && row < rows; ++i, ++row) {
 		if(plc.getdispselection() == i) {
 			wattr_on(window, COLOR_PAIR(colormanager->find("red")), NULL);
-			mvwprintw(window,row,0,"*%s",i->print().c_str());
+			mvwprintw(window,row,0,"%s",i->print().c_str());
 			wattr_off(window, COLOR_PAIR(colormanager->find("red")), NULL);
 		}
 		else
-			mvwprintw(window,row,0," %s",i->print().c_str());
+			mvwprintw(window,row,0,"%s",i->print().c_str());
 	}
 
-
 	wrefresh(window);
+}
+
+void ShowsWindow::drawheaders(unsigned int cols) {
+	mvwhline(window, 0, 0, '-', cols);
+	mvwprintw(window, 1, 0, "Watched/Total\tName");
+	mvwhline(window, 2, 0, '-', cols);
 }

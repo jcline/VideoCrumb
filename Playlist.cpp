@@ -79,7 +79,7 @@ string Playlist::print() {
 
 		for(;dif;--dif)
 			out << ' ';
-		out << name;
+		out << '\t' << name;
 
 		printstr = out.str();
 		changed = false;
