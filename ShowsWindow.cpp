@@ -67,7 +67,7 @@ void ShowsWindow::drawit() {
 }
 
 void ShowsWindow::drawheaders(unsigned int cols) {
-	mvwhline(window, 0, 0, '-', cols);
+	mvwhline(window, 0, 0, ACS_HLINE, cols);
 	mvwprintw(window, 1, 0, "Watched/Total\tName");
-	mvwhline(window, 2, 0, '-', cols);
+	mvwhline(window, 2, 0, ACS_HLINE, cols);
 }

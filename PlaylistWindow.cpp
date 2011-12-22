@@ -124,10 +124,10 @@ void PlaylistWindow::drawit() {
 }
 
 void PlaylistWindow::drawheaders(unsigned int cols) {
-	mvwhline(window, 0, 0, '-', cols);
+	mvwhline(window, 0, 0, ACS_HLINE, cols);
 	mvwprintw(window, 1, 0, "#\tName");
 	mvwprintw(window, 1, cols - strlen("Watched"), "Watched");
-	mvwhline(window, 2, 0, '-', cols);
+	mvwhline(window, 2, 0, ACS_HLINE, cols);
 }
 
 void PlaylistWindow::selected() {
