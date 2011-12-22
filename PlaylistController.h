@@ -43,6 +43,8 @@ class PlaylistController {
 		 */
 		auto begin() -> decltype(playlists.begin());
 		auto end() -> decltype(playlists.end());
+		auto cbegin() -> decltype(playlists.cbegin());
+		auto cend() -> decltype(playlists.cend());
 
 		/**
 		 * Get the current selected playlist.

@@ -58,6 +58,10 @@ auto Playlist::first() -> decltype(items.end()) {
 	return begin();
 }
 
+const std::string& Playlist::getname() const {
+	return name;
+}
+
 unsigned int Playlist::played() {
 	unsigned int ret = 0;
 	if(changed) {

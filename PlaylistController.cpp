@@ -1,6 +1,7 @@
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/fstream.hpp"
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -67,10 +68,18 @@ auto PlaylistController::begin() -> decltype(playlists.begin()) {
 	return playlists.begin();
 }
 
+auto PlaylistController::cbegin() -> decltype(playlists.cbegin()) {
+	return playlists.cbegin();
+}
+
 void deleteselected() {}
 
 auto PlaylistController::end() -> decltype(playlists.end()) {
 	return playlists.end();
+}
+
+auto PlaylistController::cend() -> decltype(playlists.cend()) {
+	return playlists.cend();
 }
 
 auto PlaylistController::getselection() -> decltype(selection) {
@@ -155,6 +164,11 @@ bool PlaylistController::loaddb() {
 cleanup:
 	selection = dispselection = begin();
 	offset = dispoffset = 0;
+
+	std::sort(begin(), end(), [](const Playlist& a, const Playlist& b) {
+			return a.getname() < b.getname();
+		}
+	);
 
 	db.close();
 	return ret;

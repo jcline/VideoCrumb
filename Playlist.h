@@ -51,6 +51,8 @@ class Playlist {
 		// Print an element at a given position in the playlist
 		std::string print(size_t pos);
 
+		// Return a const reference to the name
+		const std::string& getname() const;
 		// Return the size of the playlist
 		const size_t size();
 
