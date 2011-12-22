@@ -40,6 +40,17 @@ void ShowsWindow::control(const int c) {
 			plc.go();
 			switchwin("Playlist");
 			break;
+		case '/':
+			s = strinput("/");
+			for(auto i = plc.getdispselection(); i < plc.end(); ++i) {
+				if( i->print().find(*s) != std::string::npos) {
+					plc.offsetdispselection( i - plc.getdispselection() );
+					drawit();
+					break;
+				}
+			}
+			delete(s);
+			break;
 		default:
 			break;
 	}
