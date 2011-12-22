@@ -10,16 +10,18 @@ using std::pair;
 using std::string;
 
 Color::Color() {
+}
+
+Color::~Color() {
+}
+
+void Color::init() {
 	if(has_colors() == false) {
 		endwin();
 		std::cerr << "Your terminal does not support colors.\n";
 		exit(2);
 	}
 	start_color();
-
-}
-
-Color::~Color() {
 }
 
 void Color::add(string name, short fg, short bg) {

@@ -52,8 +52,11 @@ void ShowsWindow::drawit() {
 	getmaxyx(window,rows,cols);
 
 	for(auto i = plc.begin(); i < plc.end() && row < rows; ++i, ++row) {
-		if(plc.getdispselection() == i)
+		if(plc.getdispselection() == i) {
+			wattr_on(window, COLOR_PAIR(colormanager->find("red")), NULL);
 			mvwprintw(window,row,0,"*%s",i->print().c_str());
+			wattr_off(window, COLOR_PAIR(colormanager->find("red")), NULL);
+		}
 		else
 			mvwprintw(window,row,0," %s",i->print().c_str());
 	}

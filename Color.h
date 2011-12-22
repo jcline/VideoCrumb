@@ -16,6 +16,7 @@ class Color{
 
 		void add(std::string name, short fg, short bg);
 		int find(const std::string& key);
+		void init();
 
 
 };

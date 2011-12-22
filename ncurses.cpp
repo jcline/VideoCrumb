@@ -29,6 +29,7 @@ bool input();
 string* strinput(const char* prepend = "");
 void switchwin(const string& name);
 
+Color colormanager;
 Player player;
 PlaylistController plc;
 SettingsController sc;
@@ -66,8 +67,9 @@ int main( int argc, char **argv) {
 	curs_set(0);
 
 	// Setup colors
-	Color colormanager;
+	colormanager.init();
 	colormanager.add("red", COLOR_RED, COLOR_BLACK);
+	colormanager.add("blue", COLOR_BLUE, COLOR_BLACK);
 
 	// Setup windows
 	windows = decltype(windows) ( 
@@ -111,8 +113,11 @@ int main( int argc, char **argv) {
 void draw() {
 	move(0,0);
 	for(string &n : winnames) {
-		if(n == *winsel)
-			printw("*%s ", n.c_str());
+		if(n == *winsel) {
+			attron(COLOR_PAIR(colormanager.find("blue")));
+			printw("%s ", n.c_str());
+			attroff(COLOR_PAIR(colormanager.find("blue")));
+		}
 		else
 			printw("%s ",n.c_str());
 	}

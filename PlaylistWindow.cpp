@@ -105,12 +105,12 @@ void PlaylistWindow::drawit() {
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
 
 			if(selection == i) {
-				attron(COLOR_PAIR(colormanager->find("red")));
-				mvwprintw(window, row, 0, "*%d\t%s", ++count, i->print().c_str());
-				attroff(COLOR_PAIR(colormanager->find("red")));
+				wattr_on(window, COLOR_PAIR(colormanager->find("red")), NULL);
+				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
+				wattr_off(window, COLOR_PAIR(colormanager->find("red")), NULL);
 			}
 			else 
-				mvwprintw(window, row, 0, " %d\t%s", ++count, i->print().c_str());
+				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
 
 		}
 	}
