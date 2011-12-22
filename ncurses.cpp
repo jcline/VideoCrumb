@@ -165,6 +165,9 @@ bool input() {
 		case '4':
 			switchwin("Settings");
 			break;
+		case 's':
+			plc.savedb();
+			break;
 
 		case ERR:
 			break;
