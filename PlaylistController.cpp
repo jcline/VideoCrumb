@@ -47,7 +47,7 @@ void PlaylistController::autoaddplaylist(path p) {
 		return;
 
 	string n = p.filename().string(), name;
-	if(!n.length())
+	if(n.empty())
 		return;
 
 	Playlist pl(n);
