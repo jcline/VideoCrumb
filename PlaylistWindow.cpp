@@ -13,8 +13,10 @@ extern string* strinput(const char* prepend = "");
 
 PlaylistWindow::PlaylistWindow(WINDOW* w, Color& cm, Player& p) :
  	Window(w,cm), player(&p) {
-	if(plc.size()) 
+	if(plc.size()) {
 		selection = plc.getselection()->begin();
+		selectionoffset = 0;
+	}
 }
 
 void PlaylistWindow::command(const string& s) {
@@ -86,13 +88,37 @@ void PlaylistWindow::drawit() {
 	unsigned int row = 0, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
 
+	/*
+	 We need this if because of the way windows get switched (switchwin()).
+	 When a window is switched, no callback happens to the selected window, so
+	 this window doesn't update the selection and selectionoffset values then,
+	 instead it does it here.
+
+	TODO: add a callback that switchwin() calls so we don't do this here anymore.
+	*/
 	if(selection < plc.getselection()->begin() ||
 			selection >= plc.getselection()->end())
+	{
 		selection = plc.getselection()->begin();
+		selectionoffset = 0;
+	}
+
+	size_t offset = 0;
+	if(plc.getselection()->size() > rows) {
+		size_t center = rows/2;
+		if(selectionoffset > center) {
+			offset = selectionoffset - center;
+		}
+		if(plc.getselection()->size() - offset < rows) {
+			offset -= rows - (plc.getselection()->size() - offset);
+		}
+		count = offset;
+	}
 
 	if(plc.size()) {
-		for(auto i = plc.getselection()->begin();
+		for(auto i = plc.getselection()->begin() + offset;
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
+
 			if(selection == i) {
 				attron(COLOR_PAIR(colormanager->find("red")));
 				mvwprintw(window, row, 0, "*%d\t%s", ++count, i->print().c_str());
@@ -100,6 +126,7 @@ void PlaylistWindow::drawit() {
 			}
 			else 
 				mvwprintw(window, row, 0, " %d\t%s", ++count, i->print().c_str());
+
 		}
 	}
 

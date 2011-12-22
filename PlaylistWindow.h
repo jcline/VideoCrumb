@@ -27,7 +27,7 @@ class PlaylistWindow : public Window {
 	private:
 		Player* player;
 		decltype(plc.getselection()->begin()) selection;
-		unsigned int selectionoffset;
+		size_t selectionoffset;
 
 		void addshow(std::string& name, std::string& file, showtype type = EPISODE);
 		void del();
