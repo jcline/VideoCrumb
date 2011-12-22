@@ -50,6 +50,14 @@ auto Playlist::end() -> decltype(items.end()) {
 	return items.end();
 }
 
+auto Playlist::first() -> decltype(items.end()) {
+	unsigned int watched = begin()->getwatched();
+	for(auto i = begin(); i < end(); ++i)
+		if(i->getwatched() < watched)
+			return i;
+	return begin();
+}
+
 unsigned int Playlist::played() {
 	unsigned int ret = 0;
 	if(changed) {

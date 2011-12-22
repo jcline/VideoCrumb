@@ -27,6 +27,7 @@ class Playlist {
 
 		auto begin() -> decltype(items.end());
 		auto end() -> decltype(items.end());
+		auto first() -> decltype(items.end());
 
 		void change();
 		void deleteselection(decltype(items.begin()) s);
