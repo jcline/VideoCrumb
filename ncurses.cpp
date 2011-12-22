@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -182,16 +184,16 @@ string* strinput(const char* prepend) {
 	echo();
 	curs_set(1);
 
-	int row,col;
+	int row, col;
 	getmaxyx(dispwin->window,row,col);
 
 	char cstr[col];
-	for(int i = 0; i < col; ++i) cstr[i] = 0;
+	memset(cstr, 0, col);
 
-	mvwprintw(dispwin->window,row-1,0,"%s",prepend);
-	wgetnstr(dispwin->window,cstr,col-1);
+	mvwprintw(dispwin->window, row-1 ,0, "%s", prepend);
+	wgetnstr(dispwin->window, cstr, col-1);
 
-	wmove(dispwin->window,row-1,0);
+	wmove(dispwin->window, row-1, 0);
 	wclrtoeol(dispwin->window);
 
 	string* str = new string(cstr);

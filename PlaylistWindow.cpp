@@ -65,6 +65,16 @@ void PlaylistWindow::control(const int c) {
 		case 'w':
 			selection->watch();
 			break;
+		case '/':
+			s = strinput("/");
+			for(auto i = selection; i < plc.getselection()->end(); ++i) {
+				if( i->print().find(*s) != std::string::npos) {
+					selection = i;
+					drawit();
+				}
+			}
+			delete(s);
+			break;
 		default:
 			break;
 	}	
@@ -87,6 +97,7 @@ void PlaylistWindow::drawit() {
 	werase(window);
 	unsigned int row = 3, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
+	--rows;
 
 	drawheaders(cols);
 

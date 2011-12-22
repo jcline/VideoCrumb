@@ -17,6 +17,7 @@ SRC = \
 			SettingsController.cpp \
 			SettingsWindow.cpp \
 			ShowsWindow.cpp \
+			SignalController.cpp \
 			ncurses.cpp
 
 OBJS = $(SRC:.cpp=.o)
