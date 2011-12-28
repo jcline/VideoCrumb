@@ -16,6 +16,8 @@ class Window{
 		Window(WINDOW* w, Color& cm);
 		~Window() {}
 
+		void resize();
+
 		virtual void command(const std::string& s) {}
 		virtual void control(const int c) {}
 		virtual void drawit() {}

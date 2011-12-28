@@ -97,18 +97,17 @@ void PlaylistWindow::drawit() {
 	werase(window);
 	unsigned int row = 3, rows, cols, count = 0;
 	getmaxyx(window,rows,cols);
-	--rows;
 
 	drawheaders(cols);
 
 	size_t offset = 0;
 	if(plc.getselection()->size() > rows) {
-		size_t center = rows/2;
+		size_t center = (rows-row)/2;
 		if(selectionoffset > center) {
 			offset = selectionoffset - center;
 		}
-		if(plc.getselection()->size() - offset < rows) {
-			offset -= rows - (plc.getselection()->size() - offset);
+		if(plc.getselection()->size() - offset < (rows-row)) {
+			offset -= (rows-row) - (plc.getselection()->size() - offset);
 		}
 		count = offset;
 	}
@@ -118,14 +117,14 @@ void PlaylistWindow::drawit() {
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
 
 			if(selection == i) {
-				wattr_on(window, COLOR_PAIR(colormanager->find("red")), NULL);
-				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
-				mvwprintw(window, row, cols - 3, "[%d]", i->getwatched());
-				wattr_off(window, COLOR_PAIR(colormanager->find("red")), NULL);
+				wattr_on ( window, COLOR_PAIR(colormanager->find("red")), NULL);
+				mvwprintw( window, row, 0, "%d\t%s", ++count, i->print().c_str());
+				mvwprintw( window, row, cols - 3, "[%d]", i->getwatched());
+				wattr_off( window, COLOR_PAIR(colormanager->find("red")), NULL);
 			}
 			else {
-				mvwprintw(window, row, 0, "%d\t%s", ++count, i->print().c_str());
-				mvwprintw(window, row, cols - 3, "[%d]", i->getwatched());
+				mvwprintw( window, row, 0, "%d\t%s", ++count, i->print().c_str());
+				mvwprintw( window, row, cols - 3, "[%d]", i->getwatched());
 			}
 
 		}
@@ -135,10 +134,10 @@ void PlaylistWindow::drawit() {
 }
 
 void PlaylistWindow::drawheaders(unsigned int cols) {
-	mvwhline(window, 0, 0, ACS_HLINE, cols);
-	mvwprintw(window, 1, 0, "#\tName");
-	mvwprintw(window, 1, cols - strlen("Watched"), "Watched");
-	mvwhline(window, 2, 0, ACS_HLINE, cols);
+	mvwhline ( window, 0, 0, ACS_HLINE, cols);
+	mvwprintw( window, 1, 0, "#\tName");
+	mvwprintw( window, 1, cols - strlen("Watched"), "Watched");
+	mvwhline ( window, 2, 0, ACS_HLINE, cols);
 }
 
 void PlaylistWindow::selected() {

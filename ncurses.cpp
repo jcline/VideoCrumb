@@ -74,10 +74,12 @@ int main( int argc, char **argv) {
 	colormanager.add("blue", COLOR_BLUE, COLOR_BLACK);
 
 	// Setup windows
+	int cols, rows;
+	getmaxyx( stdscr, rows, cols );
 	windows = decltype(windows) ( 
-		PlaylistWindow(newwin(0,0,1,0), colormanager, player),
-		ShowsWindow(newwin(0,0,1,0), colormanager),
-		SettingsWindow(newwin(0,0,1,0),colormanager)
+		PlaylistWindow( newwin( rows-2, 0, 1, 0 ), colormanager, player ),
+		ShowsWindow   ( newwin( rows-2, 0, 1, 0 ), colormanager ),
+		SettingsWindow( newwin( rows-2, 0, 1, 0 ), colormanager )
 	);
 
 	// Window titlebar
@@ -168,6 +170,10 @@ bool input() {
 		case 's':
 			plc.savedb();
 			break;
+		case KEY_RESIZE:
+			draw();
+			dispwin->resize();
+			break;
 
 		case ERR:
 			break;
@@ -187,17 +193,17 @@ string* strinput(const char* prepend) {
 	echo();
 	curs_set(1);
 
-	int row, col;
-	getmaxyx(dispwin->window,row,col);
+	int rows, cols;
+	getmaxyx( stdscr, rows, cols);
 
-	char cstr[col];
-	memset(cstr, 0, col);
+	char cstr[cols];
+	memset(cstr, 0, cols);
 
-	mvwprintw(dispwin->window, row-1 ,0, "%s", prepend);
-	wgetnstr(dispwin->window, cstr, col-1);
+	mvwprintw(stdscr, rows-1, 0, "%s", prepend);
+	wgetnstr (stdscr, cstr,   cols-1);
 
-	wmove(dispwin->window, row-1, 0);
-	wclrtoeol(dispwin->window);
+	wmove    (stdscr, rows-1, 0);
+	wclrtoeol(stdscr);
 
 	string* str = new string(cstr);
 
