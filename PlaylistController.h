@@ -2,6 +2,7 @@
 #define PLAYLISTCONTROLLER_H
 
 #include "boost/filesystem.hpp"
+#include "soci/soci.h"
 #include <vector>
 
 #include "Playlist.h"
@@ -73,6 +74,7 @@ class PlaylistController {
 		 * Read the database and create data.
 		 */
 		bool loaddb();
+		//bool loaddb_new();
 
 		/**
 		 * Move selection by a given amount.
@@ -90,6 +92,8 @@ class PlaylistController {
 		 * Save the database.
 		 */
 		bool savedb();
+		bool savedb_new();
+		bool db_create(soci::session& db);
 
 		/**
 		 * Get the number of playlists.

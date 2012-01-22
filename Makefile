@@ -3,7 +3,7 @@ CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -lboost_system -lboost_filesystem 
+LFLAGS		= -lboost_system -lboost_filesystem -lsoci_core -lsoci_sqlite3
 CURSESFLAGS	= -lncurses 
 
 SRC = \

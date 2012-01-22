@@ -32,7 +32,7 @@ SettingsController::SettingsController(path c, path d) {
 			data = p;
 			data /= "AM/dbnew";
 			db = p;
-			db /= "AM/dbnew.sqlite"
+			db /= "AM/db.sqlite";
 		}
 		else {
 			cerr << "Could not read $XDG_CONFIG_HOME, please use --data-dir\n";

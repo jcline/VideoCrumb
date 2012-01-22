@@ -1,6 +1,9 @@
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/fstream.hpp"
 
+#include "soci/soci.h"
+#include "soci/sqlite3/soci-sqlite3.h"
+
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -15,6 +18,8 @@ using std::cout;
 using std::map;
 using std::string;
 using std::vector;
+
+using namespace soci;
 
 using boost::filesystem::ofstream;
 using boost::filesystem::ifstream;
@@ -191,17 +196,96 @@ bool PlaylistController::savedb() {
 	}
 
 	db.close();
+
+	savedb_new();
+
 	return true;
 }
 
-bool savedb_new() {
-	session sql(sqlite3, sc.db);
+bool PlaylistController::db_create(session& db) {
 
+	const double version = .2;
+	double v = 0;
+	indicator ind;
+	bool init = true;
 
+	db << "SELECT Number FROM Version", into(v, ind);
+
+	if(db.got_data()) {
+		switch(ind) {
+			case i_ok:
+				init = false;
+				break;
+			case i_null:
+				break;
+			case i_truncated:
+				break;
+		}
+	}
+
+	if(v < version) {
+		init = true;
+	}
+
+	if(init) {
+		db << "CREATE TABLE IF NOT EXISTS Playlists ("
+			"Name TEXT PRIMARY KEY ASC NOT NULL,"
+			"Entries_Viewed INT NOT NULL,"
+			"Entries INT NOT NULL"
+			")";
+		db << "CREATE TABLE IF NOT EXISTS Version ("
+			"Number REAL NOT NULL"
+			")";
+
+		db << "CREATE TABLE IF NOT EXISTS Shows ("
+			"ID INT PRIMARY KEY ASC NOT NULL,"
+			"Name TEXT,"
+			"File TEXT NOT NULL,"
+			"Watched INT DEFAULT 0,"
+			"Type TEXT NOT NULL DEFAULT EPISODE"
+			")";
+
+		if(v < version) {
+			db << "UPDATE Version SET Number = :version", use(version);
+		}
+		else
+			db << "INSERT INTO Version (Number) VALUES(:version)", use(version);
+	}
+
+	db << "SELECT Number FROM Version", into(v, ind);
+
+	if(db.got_data()) {
+		switch(ind) {
+			case i_ok:
+				return true;
+				break;
+			case i_null:
+				return false;
+				break;
+			case i_truncated:
+				break;
+		}
+	}
+
+	return false;
 }
 
-bool db_create(session& sql) {
+bool PlaylistController::savedb_new() {
+	session db(sqlite3, sc.db.native());
 
+	assert(db_create(db));
+
+	for(Playlist& p : playlists) {
+
+
+
+		for(Show& s : p) {
+			//s.printdetail(db);
+			//db << '\n';
+		}
+	}
+
+	return true;
 }
 
 size_t PlaylistController::size() { return playlists.size(); }
