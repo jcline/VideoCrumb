@@ -11,6 +11,13 @@ using std::string;
 extern PlaylistController plc;
 extern string* strinput(const char* prepend = "");
 
+template<typename... T>
+static void dispmsg( WINDOW* win, const char* fmt, T... args) {
+	int rows, cols;
+	getmaxyx ( win, rows,   cols );
+	mvwprintw( win, rows-1, 0, fmt, args... );
+}
+
 PlaylistWindow::PlaylistWindow(WINDOW* w, Color& cm, Player& p) :
  	Window(w,cm), player(&p) {
 	if(plc.size()) {
@@ -67,10 +74,17 @@ void PlaylistWindow::control(const int c) {
 			break;
 		case '/':
 			s = strinput("/");
-			for(auto i = selection; i < plc.getselection()->end(); ++i) {
-				if( i->print().find(*s) != std::string::npos) {
-					selection = i;
-					drawit();
+			{
+				auto i = selection;
+				for(; i < plc.getselection()->end(); ++i) {
+					if( i->print().find(*s) != std::string::npos) {
+						selection = i;
+						drawit();
+						break;
+					}
+				}
+				if(i == plc.getselection()->end()) {
+					dispmsg(stdscr, "Could not find \"%s\"", s->c_str());
 				}
 			}
 			delete(s);

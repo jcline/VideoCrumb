@@ -194,4 +194,14 @@ bool PlaylistController::savedb() {
 	return true;
 }
 
+bool savedb_new() {
+	session sql(sqlite3, sc.db);
+
+
+}
+
+bool db_create(session& sql) {
+
+}
+
 size_t PlaylistController::size() { return playlists.size(); }

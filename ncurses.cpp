@@ -28,7 +28,7 @@ using std::vector;
 void draw();
 void drawwin();
 bool input();
-string* strinput(const char* prepend = "");
+string* strinput(const char* prepend);
 void switchwin(const string& name);
 
 Color colormanager;
@@ -212,7 +212,6 @@ string* strinput(const char* prepend) {
 	noecho();
 	return str;
 }
-
 
 /*
 	Switches to the window with the given name.
