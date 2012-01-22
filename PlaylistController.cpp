@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <exception>
 #include <iostream>
 #include <map>
 #include <string>
@@ -207,11 +208,17 @@ bool PlaylistController::db_create(session& db) {
 	const double version = .2;
 	double v = 0;
 	indicator ind;
-	bool init = true;
+	bool init = true, caught = false;
 
-	db << "SELECT Number FROM Version", into(v, ind);
+	try {
+		db << "SELECT Number FROM Version", into(v, ind);
+	}
+	catch (const std::exception& e) {
+		init = true;
+		caught = true;
+	}
 
-	if(db.got_data()) {
+	if(!caught && db.got_data()) {
 		switch(ind) {
 			case i_ok:
 				init = false;
@@ -221,17 +228,16 @@ bool PlaylistController::db_create(session& db) {
 			case i_truncated:
 				break;
 		}
-	}
 
-	if(v < version) {
-		init = true;
+		if(v < version) {
+			init = true;
+		}
+
 	}
 
 	if(init) {
 		db << "CREATE TABLE IF NOT EXISTS Playlists ("
-			"Name TEXT PRIMARY KEY ASC NOT NULL,"
-			"Entries_Viewed INT NOT NULL,"
-			"Entries INT NOT NULL"
+			"Name TEXT PRIMARY KEY ASC NOT NULL"
 			")";
 		db << "CREATE TABLE IF NOT EXISTS Version ("
 			"Number REAL NOT NULL"
@@ -245,7 +251,7 @@ bool PlaylistController::db_create(session& db) {
 			"Type TEXT NOT NULL DEFAULT EPISODE"
 			")";
 
-		if(v < version) {
+		if(!caught && v < version) {
 			db << "UPDATE Version SET Number = :version", use(version);
 		}
 		else
@@ -276,7 +282,11 @@ bool PlaylistController::savedb_new() {
 	assert(db_create(db));
 
 	for(Playlist& p : playlists) {
-
+		if(p.haschanged()) {
+			db << "UPDATE Playlists Set "
+				"Name = :NAME "
+				"WHERE Name == :OLDNAME", use(p);
+		}
 
 
 		for(Show& s : p) {

@@ -7,13 +7,13 @@ using std::ostream;
 using std::string;
 using std::stringstream;
 
-Playlist::Playlist() {changed = true;}
+Playlist::Playlist() {printstrchanged = changed = true;}
 
-Playlist::Playlist(string& n) : name(n) {changed = true;}
+Playlist::Playlist(string& n) : name(n) {printstrchanged = changed = true;}
 
 Playlist::Playlist(string& n, const Playlist& b) :
 	name(n), items(b.items) {
-	changed = true;
+	printstrchanged = true;
 }
 
 Playlist::Playlist(string& n, Show& s) :
@@ -23,7 +23,7 @@ Playlist::Playlist(string& n, Show& s) :
 
 void Playlist::add(Show& s) {
 	items.push_back(s);
-	changed = true;
+	printstrchanged = changed = true;
 }
 
 void Playlist::add(Show& s, size_t pos) {
@@ -31,7 +31,7 @@ void Playlist::add(Show& s, size_t pos) {
 		items.insert(items.begin()+pos, s);
 	else
 		add(s);
-	changed = true;
+	printstrchanged = changed = true;
 }
 
 auto Playlist::begin() -> decltype(items.end()) {
@@ -39,7 +39,7 @@ auto Playlist::begin() -> decltype(items.end()) {
 }
 
 void Playlist::change() {
-	changed = true;
+	printstrchanged = changed = true;
 }
 
 void Playlist::deleteselection(decltype(items.begin()) s) {
@@ -62,9 +62,17 @@ const std::string& Playlist::getname() const {
 	return name;
 }
 
+const std::string& Playlist::getoldname() const {
+	return old_name;
+}
+
+bool Playlist::haschanged() {
+	return changed;
+}
+
 unsigned int Playlist::played() {
 	unsigned int ret = 0;
-	if(changed) {
+	if(printstrchanged) {
 		for(Show &s: items) {
 			if(s.getwatched())
 				++ret;
@@ -75,7 +83,7 @@ unsigned int Playlist::played() {
 
 string Playlist::print() {
 	stringstream out;
-	if(changed) {
+	if(printstrchanged) {
 		out << '[' << played() << '/' << items.size() << "]";
 		// Make all the playlist names line up, assumes max # items 999
 		auto len = out.str().length();
@@ -86,7 +94,7 @@ string Playlist::print() {
 		out << '\t' << name;
 
 		printstr = out.str();
-		changed = false;
+		printstrchanged = false;
 	}
 
 	return printstr;

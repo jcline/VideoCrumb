@@ -7,16 +7,19 @@
 #include <string>
 #include <vector>
 
+#include "soci/soci.h"
+
 class Playlist {
 	private:
-		bool changed;
-		std::string printstr, name;
+		bool printstrchanged, changed;
+		std::string printstr, name, old_name;
 		std::vector<Show> items;
 
 	public:
 
 		Playlist();
 		Playlist(std::string& n);
+		// Only use this constructor when initializing from the database
 		Playlist(std::string& n, const Playlist& b);
 		Playlist(std::string& n, Show& s);
 
@@ -53,9 +56,36 @@ class Playlist {
 
 		// Return a const reference to the name
 		const std::string& getname() const;
+		// If the name is changed and we need to update it in the database
+		const std::string& getoldname() const;
 		// Return the size of the playlist
 		const size_t size();
 
+		// Return if the playlist data has changed
+		bool haschanged();
+
+		// Database type conversion for named identifiers, needs private access
+		template<class Playlist> friend struct soci::type_conversion;
 };
+
+/**
+ * SOCI type conversion code for database access ease
+ */
+namespace soci {
+	template<>
+	struct type_conversion<Playlist> {
+
+		typedef values base_type;
+
+		static void from_base(const values& v, indicator /* ind */, Playlist p) {
+			p.name = v.get<std::string>("NAME");
+		}
+
+		static void to_base(const Playlist& p, values& v, indicator& ind) {
+			v.set("NAME", p.name);
+		}
+
+};
+}
 
 #endif
