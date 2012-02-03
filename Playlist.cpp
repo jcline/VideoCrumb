@@ -9,14 +9,14 @@ using std::stringstream;
 
 Playlist::Playlist() {printstrchanged = changed = true;}
 
-Playlist::Playlist(string& n) : name(n) {printstrchanged = changed = true;}
+Playlist::Playlist(const string& n) : name(n) {printstrchanged = changed = true;}
 
-Playlist::Playlist(string& n, const Playlist& b) :
+Playlist::Playlist(const string& n, const Playlist& b) :
 	name(n), items(b.items) {
 	printstrchanged = true;
 }
 
-Playlist::Playlist(string& n, Show& s) :
+Playlist::Playlist(const string& n, Show& s) :
 	name(n) {
 	add(s);
 }

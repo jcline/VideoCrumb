@@ -164,7 +164,8 @@ bool PlaylistController::loaddb() {
 			p.add(s);
 		}
 
-		addplaylist(p);
+		Playlist pl(p.getname(),p);
+		addplaylist(pl);
 	}
 
 cleanup:
@@ -203,37 +204,42 @@ bool PlaylistController::savedb() {
 	return true;
 }
 
-bool PlaylistController::db_create(session& db) {
+bool PlaylistController::db_create(bool exists, session& db) {
 
 	const double version = .2;
 	double v = 0;
 	indicator ind;
 	bool init = true, caught = false;
 
-	try {
-		db << "SELECT Number FROM Version", into(v, ind);
-	}
-	catch (const std::exception& e) {
-		init = true;
-		caught = true;
-	}
 
-	if(!caught && db.got_data()) {
-		switch(ind) {
-			case i_ok:
-				init = false;
-				break;
-			case i_null:
-				break;
-			case i_truncated:
-				break;
+	// TODO: remove exists once we drop old database stuff
+	if(exists) {
+		try {
+			db << "SELECT Number FROM Version", into(v, ind);
 		}
-
-		if(v < version) {
+		catch (const std::exception& e) {
 			init = true;
+			caught = true;
 		}
 
+		if(!caught && db.got_data()) {
+			switch(ind) {
+				case i_ok:
+					init = false;
+					break;
+				case i_null:
+					break;
+				case i_truncated:
+					break;
+			}
+
+			if(v < version) {
+				init = true;
+			}
+		}
 	}
+	else
+		init = true;
 
 	if(init) {
 		db << "CREATE TABLE IF NOT EXISTS Playlists ("
@@ -244,32 +250,47 @@ bool PlaylistController::db_create(session& db) {
 			")";
 
 		db << "CREATE TABLE IF NOT EXISTS Shows ("
-			"ID INT PRIMARY KEY ASC NOT NULL,"
-			"Name TEXT,"
-			"File TEXT NOT NULL,"
-			"Watched INT DEFAULT 0,"
-			"Type TEXT NOT NULL DEFAULT EPISODE"
+			"File TEXT PRIMARY KEY ASC NOT NULL, "
+			"Name TEXT, "
+			"ID INT NOT NULL, "
+			"Watched INT DEFAULT 0, "
+			"Type TEXT NOT NULL DEFAULT EPISODE, "
+			"Playlist REFERENCES Playlists (Name) ON DELETE CASCADE ON UPDATE CASCADE"
 			")";
 
-		if(!caught && v < version) {
+		if(exists && !caught && v < version) {
 			db << "UPDATE Version SET Number = :version", use(version);
 		}
 		else
 			db << "INSERT INTO Version (Number) VALUES(:version)", use(version);
-	}
 
-	db << "SELECT Number FROM Version", into(v, ind);
+		// TODO: remove this once we drop old database stuff
+		if(!exists) {
+			for(Playlist& p : playlists) {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
 
-	if(db.got_data()) {
-		switch(ind) {
-			case i_ok:
-				return true;
-				break;
-			case i_null:
-				return false;
-				break;
-			case i_truncated:
-				break;
+				for(Show& s : p) {
+
+					db << "INSERT INTO Shows VALUES(:FILE,:NAME,:WATCHED,:TYPE,:PLAYLIST)",
+						 use(s), use(p.getname(), "PLAYLIST");
+
+				}
+			}
+		}
+
+		db << "SELECT Number FROM Version", into(v, ind);
+
+		if(db.got_data()) {
+			switch(ind) {
+				case i_ok:
+					return true;
+					break;
+				case i_null:
+					return false;
+					break;
+				case i_truncated:
+					break;
+			}
 		}
 	}
 
@@ -277,15 +298,25 @@ bool PlaylistController::db_create(session& db) {
 }
 
 bool PlaylistController::savedb_new() {
+	bool exists = boost::filesystem::exists(sc.db);
 	session db(sqlite3, sc.db.native());
 
-	assert(db_create(db));
+	// TODO: remove exists once we drop old database stuff
+	assert(db_create(exists, db));
 
 	for(Playlist& p : playlists) {
 		if(p.haschanged()) {
-			db << "UPDATE Playlists Set "
-				"Name = :NAME "
-				"WHERE Name == :OLDNAME", use(p);
+			std::string name;
+			indicator ind;
+			db << "SELECT Name FROM Playlists WHERE Name == :OLDNAME", use(p), into(name, ind);
+			if(ind == i_ok && db.got_data()) {
+				db << "UPDATE Playlists SET "
+					"Name=:NAME "
+					"WHERE Name == :OLDNAME", use(p);
+			}
+			else {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
+			}
 		}
 
 

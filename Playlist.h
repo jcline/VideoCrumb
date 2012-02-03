@@ -18,10 +18,10 @@ class Playlist {
 	public:
 
 		Playlist();
-		Playlist(std::string& n);
+		Playlist(const std::string& n);
 		// Only use this constructor when initializing from the database
-		Playlist(std::string& n, const Playlist& b);
-		Playlist(std::string& n, Show& s);
+		Playlist(const std::string& n, const Playlist& b);
+		Playlist(const std::string& n, Show& s);
 
 		~Playlist() {}
 
@@ -83,6 +83,8 @@ namespace soci {
 
 		static void to_base(const Playlist& p, values& v, indicator& ind) {
 			v.set("NAME", p.name);
+			v.set("OLDNAME", p.old_name);
+			ind = i_ok;
 		}
 
 };
