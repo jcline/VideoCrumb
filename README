@@ -49,6 +49,7 @@ Controls:
 		/<string>: search for <string>, press enter to start the search
 	Settings:
 	Global:
+        q: quit the program
 		s: save the database
 		down arrow: scroll down
 		up arrow: scroll up
