@@ -6,7 +6,15 @@ class DatabaseManager {
 		DatabaseManager();
 		~DatabaseManager();
 
-		create_db(
+		/**
+		 * Create the SQLite database file and create all the tables.
+		 */
+		bool create_db();
+
+		/**
+		 * Save/update the data in the database when requested.
+		 */
+		bool save_db();
 	private:
 
 }

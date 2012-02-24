@@ -1,13 +1,18 @@
 #include "soci/soci.h"
 #include "soci/sqlite3/soci-sqlite3.h"
 
+#include "Playlist.h"
+#include "Show.h"
+
+#include "DatabaseManager.h"
+
 DatabaseManager::DatabaseManager() {
 }
 
 DatabaseManager::~DatabaseManager() {
 }
 
-bool DatabaseManager::db_create(bool exists, session& db) {
+bool DatabaseManager::create_db(bool exists, session& db) {
 
 	const double version = .2;
 	double v = 0;
@@ -101,4 +106,36 @@ bool DatabaseManager::db_create(bool exists, session& db) {
 	}
 
 	return false;
+}
+
+bool PlaylistController::save_db() {
+	bool exists = boost::filesystem::exists(sc.db);
+	session db(sqlite3, sc.db.native());
+
+	// TODO: remove exists once we drop old database stuff
+	assert(db_create(exists, db));
+
+	for(Playlist& p : playlists) {
+		if(p.haschanged()) {
+			std::string name;
+			indicator ind;
+			db << "SELECT Name FROM Playlists WHERE Name == :OLDNAME", use(p), into(name, ind);
+			if(ind == i_ok && db.got_data()) {
+				db << "UPDATE Playlists SET "
+					"Name=:NAME "
+					"WHERE Name == :OLDNAME", use(p);
+			}
+			else {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
+			}
+		}
+
+
+		for(Show& s : p) {
+			//s.printdetail(db);
+			//db << '\n';
+		}
+	}
+
+	return true;
 }

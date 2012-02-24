@@ -97,8 +97,6 @@ class PlaylistController {
 		 * Save the database.
 		 */
 		bool savedb();
-		bool savedb_new();
-		bool db_create(bool exists, soci::session& db);
 
 		/**
 		 * Get the number of playlists.
