@@ -1,3 +1,6 @@
+#ifndef DATABSEMANAGER_H
+#define DATABASEMANAGER_H
+
 #include "soci/soci.h"
 #include "soci/sqlite3/soci-sqlite3.h"
 
@@ -18,3 +21,5 @@ class DatabaseManager {
 	private:
 
 }
+
+#endif
