@@ -88,6 +88,10 @@ auto PlaylistController::cend() -> decltype(playlists.cend()) {
 	return playlists.cend();
 }
 
+bool PlaylistController::empty() {
+	return playlists.empty();
+}
+
 auto PlaylistController::getselection() -> decltype(selection) {
 	selection = begin() + offset;
 	return selection;

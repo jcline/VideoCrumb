@@ -48,6 +48,11 @@ class PlaylistController {
 		auto cend() -> decltype(playlists.cend());
 
 		/**
+		 * Return if there are no playlists.
+		 */
+		bool empty();
+
+		/**
 		 * Get the current selected playlist.
 		 * Used by playlist window.
 		 */

@@ -37,8 +37,10 @@ void ShowsWindow::control(const int c) {
 			plc.offsetdispselection(1);
 			break;
 		case KEY_RIGHT:
-			plc.go();
-			switchwin("Playlist");
+			if(!plc.empty()) {
+				plc.go();
+				switchwin("Playlist");
+			}
 			break;
 		case '/':
 			s = strinput("/");
