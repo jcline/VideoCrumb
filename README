@@ -12,7 +12,7 @@ Dependencies:
 	boost
 		filesystem
 		program_options
-  soci (Make sure your version has SQLite support)
+	soci (Make sure your version has SQLite support)
 
 If you get an error when compiling saying, "fatal error: soci-backend.h: No such
 file or directory." Then you need to edit /usr/include/soci/soci-sqlite3/soci-sqlite3.h 
