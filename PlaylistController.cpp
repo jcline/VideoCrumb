@@ -266,6 +266,7 @@ bool PlaylistController::db_create(bool exists, session& db) {
 
 		// TODO: remove this once we drop old database stuff
 		if(!exists) {
+			int order = 0;
 			for(Playlist& p : playlists) {
 				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
 
