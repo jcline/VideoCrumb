@@ -24,18 +24,44 @@ class Show {
 		 	file(f), name(n), type(t), watched(w) {
 		}
 
+		/**
+		 * Copy constructors.
+		 */ 
 		Show(const Show& other);
 		Show(Show& other);
+
+		/**
+		 * Return a string of information about this show.
+		 */
 		std::string print();
+
+		/**
+		 * Print detailed information about this show to ostream o.
+		 */
 		void printdetail(std::ostream& o);
+
+		/**
+		 * Start associatied Player to play this show.
+		 */
 		void watch();
+		
+		/**
+		 * Getter for number of times this show has been watched.
+		 */
 		const unsigned int getwatched();
 
+		/**
+		 * Getter for the type of show as listed in the enumeration.
+		 */
 		static showtype gettype(const std::string& t);
 
 	private:
+		//! The number of times this show has been watched.
 		unsigned int watched;
 
+	/**
+	 * Friend for serializing a Show for the database.
+	 */
 	template<class Show> friend struct soci::type_conversion;
 };
 
