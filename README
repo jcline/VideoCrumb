@@ -14,6 +14,12 @@ Dependencies:
 		program_options
   soci (Make sure your version has SQLite support)
 
+If you get an error when compiling saying, "fatal error: soci-backend.h: No such
+file or directory." Then you need to edit /usr/include/soci/soci-sqlite3/soci-sqlite3.h 
+#include "soci-backend.h"
+to
+#include "../soci-backend.h"
+
 Tested with (x86_64):
   gcc 4.6
 	GNU make 3.82
