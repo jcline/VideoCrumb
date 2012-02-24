@@ -7,18 +7,33 @@
 #include "soci/soci.h"
 
 enum showtype{ 
+	// Commentaries, like from DVD/BDs
 	COMMENTARY,
+	// An episode from a series
 	EPISODE,
+	// A movie
 	MOVIE,
+	// A special feature from a DVD, BD, etc
 	SPECIAL
 };
 
 class Show {
 	public:
-		std::string file,
-			name;
+		//! File where this show can be played from
+		std::string file;
+		//! The name of this show
+		std::string name;
+		//! The type of this show, as described in enumeration
 		showtype type;
 
+		/**
+		 * The constructor that should be use.
+		 *
+		 * @param f the path to this show's file
+		 * @param n the name of this show
+		 * @param t the type of the show
+		 * @param w the number of times the show has been watched
+		 */
 		Show(std::string f = std::string(), std::string n = std::string(),
 			showtype t = EPISODE, unsigned int w = 0) :
 		 	file(f), name(n), type(t), watched(w) {
