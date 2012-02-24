@@ -49,6 +49,8 @@ Controls:
 		/<string>: search for <string>, press enter to start the search
 	Settings:
 	Global:
+		q: save the database and quit
+		ctrl+c: quit and don't save database
 		s: save the database
 		down arrow: scroll down
 		up arrow: scroll up
