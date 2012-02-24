@@ -11,6 +11,7 @@ SRC = \
 			Show.cpp \
 			Player.cpp \
 			Playlist.cpp \
+			DatabaseManager.cpp \
 			PlaylistController.cpp \
 			Window.cpp \
 			PlaylistWindow.cpp \
