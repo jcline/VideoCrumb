@@ -40,9 +40,15 @@ Controls:
 	Shows:
 		<return>: add a new playlist
 		<right arrow>: view selected playlist
+    /<string>: search for <string>, press enter to start the search
 	Playlist:
 		<return>: add a new show
 		<right arrow>, p: play selected show
-		w: increment times item has been watched
+		w: increment times item has been watched without playing the file
 		d: delete item (asks for confirmation)
+    /<string>: search for <string>, press enter to start the search
 	Settings:
+  Global:
+    s: save the database
+    down arrow: scroll down
+    up arrow: scroll up
