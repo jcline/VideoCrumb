@@ -48,7 +48,7 @@ Controls:
 		d: delete item (asks for confirmation)
 		/<string>: search for <string>, press enter to start the search
 	Settings:
-  Global:
-    s: save the database
+	Global:
+		s: save the database
 		down arrow: scroll down
 		up arrow: scroll up
