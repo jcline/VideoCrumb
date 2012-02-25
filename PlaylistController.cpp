@@ -72,9 +72,8 @@ void PlaylistController::autoaddplaylist(path p) {
 	}
 
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-	size_t size = shows.size();
-	for(size_t i = 0; i < size; ++i) {
-		Show s(shows[i].second, shows[i].first, EPISODE);
+	for(auto i = shows.begin(); i != shows.end(); ++i) {
+		Show s((*i).second, (*i).first, EPISODE);
 		pl.add(s);
 	}
 #else
