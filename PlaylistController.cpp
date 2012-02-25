@@ -52,7 +52,7 @@ void PlaylistController::autoaddplaylist(path p) {
 	if(!is_directory(p))
 		return;
 
-	string n = p.filename().string(), name;
+	string n = p.filename().string();
 	if(n.empty())
 		return;
 
@@ -290,6 +290,18 @@ bool PlaylistController::db_create(bool exists, session& db) {
 
 		// TODO: remove this once we drop old database stuff
 		if(!exists) {
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+			int order = 0;
+			for(auto i = playlists.begin(); i < playlists.end(); ++i) {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(playlists[i]);
+
+				for(auto j = playlists[i].begin(); j < playlists[i].end(); ++j) {
+					db << "INSERT INTO Shows VALUES(:FILE,:NAME,:WATCHED,:TYPE,:PLAYLIST)",
+						 use(*j), use((*j).getname(), "PLAYLIST");
+
+				}
+			}
+#else
 			int order = 0;
 			for(Playlist& p : playlists) {
 				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
@@ -301,6 +313,7 @@ bool PlaylistController::db_create(bool exists, session& db) {
 
 				}
 			}
+#endif
 		}
 
 		db << "SELECT Number FROM Version", into(v, ind);
