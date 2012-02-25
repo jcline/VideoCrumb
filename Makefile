@@ -4,7 +4,7 @@ CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} -pedantic -t
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -lboost_system -lboost_filesystem ./soci/bin/lib/libsoci_core.a ./soci/bin/lib/libsoci_sqlite3.a
+LFLAGS		= -lboost_system -lboost_program_options -lboost_filesystem ./soci/bin/lib/libsoci_core.a ./soci/bin/lib/libsoci_sqlite3.a
 CURSESFLAGS	= -lncurses 
 
 SRC = \

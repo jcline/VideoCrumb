@@ -12,7 +12,7 @@ using std::string;
 
 using namespace boost::filesystem;
 
-SettingsController::SettingsController(path c, path d) {
+void SettingsController::load(path c, path d) {
 	char* p;
 	if(c.empty()) {
 		p = getenv("XDG_CONFIG_HOME");
@@ -22,7 +22,7 @@ SettingsController::SettingsController(path c, path d) {
 		}
 		else {
 			cerr << "Could not read $XDG_CONFIG_HOME, please use --config\n";
-			exit(1);
+			//exit(1);
 		}
 	}
 
@@ -35,7 +35,7 @@ SettingsController::SettingsController(path c, path d) {
 			db /= "AM/db.sqlite";
 		}
 		else {
-			cerr << "Could not read $XDG_CONFIG_HOME, please use --data-dir\n";
+			cerr << "Could not read $XDG_DATA_HOME, please use --data-dir\n";
 			exit(1);
 		}
 	}
