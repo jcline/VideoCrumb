@@ -184,10 +184,7 @@ cleanup:
 	selection = dispselection = begin();
 	offset = dispoffset = 0;
 
-	std::sort(begin(), end(), [](const Playlist& a, const Playlist& b) {
-			return a.getname() < b.getname();
-		}
-	);
+	std::sort(begin(), end());
 
 	db.close();
 	return ret;

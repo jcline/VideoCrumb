@@ -38,6 +38,9 @@ class Playlist {
 		// If there is none, returns begin()
 		auto first() -> decltype(items.end());
 
+		//! Operator for sorting
+		bool operator< (const Playlist& o) const;
+
 		// Marks this playlist as modified, for methods that can be more efficient with this knowledge
 		void change();
 		// Remove the selected item from the playlist
