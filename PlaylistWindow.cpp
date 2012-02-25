@@ -1,5 +1,5 @@
 #include <string>
-#include <cstdio>
+#include <cstring>
 
 #include "Color.h"
 #include "ncurses.h"
