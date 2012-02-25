@@ -63,10 +63,18 @@ void PlaylistController::autoaddplaylist(path p) {
 		shows[i->path().filename().string()] = i->path().string();
 	}
 
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = shows.size();
+	for(size_t i = 0; i < size; ++i) {
+		Show s(shows[i].second, shows[i].first, EPISODE);
+		pl.add(s);
+	}
+#else
 	for(auto &i: shows) {
 		Show s(i.second, i.first, EPISODE);
 		pl.add(s);
 	}
+#endif
 	addplaylist(pl);
 }
 
@@ -191,15 +199,27 @@ bool PlaylistController::savedb() {
 	db.open(sc.data);
 
 	//TODO: Better error checking
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = playlists.size();
+	for(size_t i = 0; i < size; ++i) {
+		playlists[i].printdetail(db);
+		db << '\n';
+		size_t shows_size = shows.size();
+		for(size_t j = 0; j < shows_size; ++j) {
+			shows[j].printdetail(db);
+			db << '\n';
+		}
+	}
+#else
 	for(Playlist& p : playlists) {
 		p.printdetail(db);
 		db << '\n';
 		for(Show& s : p) {
 			s.printdetail(db);
-			db<< '\n';
+			db << '\n';
 		}
-
 	}
+#endif
 
 	db.close();
 
@@ -309,6 +329,31 @@ bool PlaylistController::savedb_new() {
 	// TODO: remove exists once we drop old database stuff
 	assert(db_create(exists, db));
 
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = playlists.size();
+	for(size_t i = 0; i < size; ++i) {
+		if(playlists[i].haschanged()) {
+			std::string name;
+			indicator ind;
+			db << "SELECT Name FROM Playlists WHERE Name == :OLDNAME", use(playlists[i]), into(name, ind);
+			if(ind == i_ok && db.got_data()) {
+				db << "UPDATE Playlists SET "
+					"Name=:NAME "
+					"WHERE Name == :OLDNAME", use(playlists[i]);
+			}
+			else {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(playlists[i]);
+			}
+		}
+
+
+		size_t shows_size = p.size();
+		for(size_t j = 0; j < shows_size; ++j) {
+			//s.printdetail(db);
+			//db << '\n';
+		}
+	}
+#else
 	for(Playlist& p : playlists) {
 		if(p.haschanged()) {
 			std::string name;
@@ -330,6 +375,7 @@ bool PlaylistController::savedb_new() {
 			//db << '\n';
 		}
 	}
+#endif
 
 	return true;
 }
