@@ -116,6 +116,18 @@ int main( int argc, char **argv) {
 */
 void draw() {
 	move(0,0);
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = winnames.size();
+	for(size_t i = 0; i < size; ++i) {
+		if(winnames[i] == *winsel) {
+			attron(COLOR_PAIR(colormanager.find("blue")));
+			printw("%s ", winnames[i].c_str());
+			attroff(COLOR_PAIR(colormanager.find("blue")));
+		}
+		else
+			printw("%s ", winnames[i].c_str());
+	}
+#else
 	for(string &n : winnames) {
 		if(n == *winsel) {
 			attron(COLOR_PAIR(colormanager.find("blue")));
@@ -123,8 +135,9 @@ void draw() {
 			attroff(COLOR_PAIR(colormanager.find("blue")));
 		}
 		else
-			printw("%s ",n.c_str());
+			printw("%s ", n.c_str());
 	}
+#endif
 	refresh();
 }
 

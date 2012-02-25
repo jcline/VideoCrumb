@@ -73,10 +73,17 @@ bool Playlist::haschanged() {
 unsigned int Playlist::played() {
 	unsigned int ret = 0;
 	if(printstrchanged) {
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+		size_t size = items.size();
+		for(size_t i = 0; i < items; ++i)
+			if(items[i].getwatched())
+				++ret;
+#else
 		for(Show &s: items) {
 			if(s.getwatched())
 				++ret;
 		}
+#endif
 	}
 	return ret;
 }
