@@ -1,8 +1,8 @@
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/fstream.hpp"
 
-#include "soci/soci.h"
-#include "soci/sqlite3/soci-sqlite3.h"
+#include "soci/soci/src/core/soci.h"
+#include "soci/soci/src/backends/sqlite3/soci-sqlite3.h"
 
 #include <algorithm>
 #include <cstdlib>

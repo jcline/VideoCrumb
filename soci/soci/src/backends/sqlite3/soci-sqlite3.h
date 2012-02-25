@@ -24,7 +24,7 @@
 #endif
 
 #include <vector>
-#include "soci-backend.h"
+#include "../../core/soci-backend.h"
 
 // Disable flood of nonsense warnings generated for SQLite
 #ifdef _MSC_VER
