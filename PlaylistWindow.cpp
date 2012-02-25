@@ -115,19 +115,19 @@ void PlaylistWindow::drawit() {
 
 	drawheaders(cols);
 
-	size_t offset = 0;
-	if(plc.getselection()->size() > rows) {
-		size_t center = (rows-row)/2;
-		if(selectionoffset > center) {
-			offset = selectionoffset - center;
+	if(!plc.empty()) {
+		size_t offset = 0;
+		if(plc.getselection()->size() > rows) {
+			size_t center = (rows-row)/2;
+			if(selectionoffset > center) {
+				offset = selectionoffset - center;
+			}
+			if(plc.getselection()->size() - offset < (rows-row)) {
+				offset -= (rows-row) - (plc.getselection()->size() - offset);
+			}
+			count = offset;
 		}
-		if(plc.getselection()->size() - offset < (rows-row)) {
-			offset -= (rows-row) - (plc.getselection()->size() - offset);
-		}
-		count = offset;
-	}
 
-	if(plc.size()) {
 		for(auto i = plc.getselection()->begin() + offset;
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
 
