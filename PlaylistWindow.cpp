@@ -158,8 +158,10 @@ void PlaylistWindow::drawheaders(unsigned int cols) {
 void PlaylistWindow::selected() {
 	// Find the first unwatched in this session of watching
 	// That is, the first show that we have watched less than the prior shows
-	selection = plc.getselection()->first();
-	selectionoffset = selection - plc.getselection()->begin();
+	if( !plc.empty() ) {
+		selection = plc.getselection()->first();
+		selectionoffset = selection - plc.getselection()->begin();
+	}
 }
 
 void PlaylistWindow::addshow(string& name, string& file, showtype type) {
