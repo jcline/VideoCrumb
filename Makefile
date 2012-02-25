@@ -1,9 +1,10 @@
 CXX			= g++
-CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
+#CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
+CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} 
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -lboost_system -lboost_filesystem -lsoci_core -lsoci_sqlite3
+LFLAGS		= -L ./soci/bin/lib -lboost_system -lboost_filesystem -lsoci_core -lsoci_sqlite3
 CURSESFLAGS	= -lncurses 
 
 SRC = \
@@ -23,7 +24,9 @@ SRC = \
 OBJS = $(SRC:.cpp=.o)
 
 videocrumb: $(OBJS) 
+	./soci-build.sh
 	$(LINKER) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
 
+
 clean:
-	rm $(OBJS) videocrumb
+	rm -r $(OBJS) soci/bin/* videocrumb
