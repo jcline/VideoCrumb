@@ -1,4 +1,5 @@
 #include <string>
+#include <cstdio>
 
 #include "Color.h"
 #include "ncurses.h"

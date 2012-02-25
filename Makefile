@@ -1,6 +1,6 @@
 CXX			= g++
 #CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
-CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} 
+CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} -pedantic
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
