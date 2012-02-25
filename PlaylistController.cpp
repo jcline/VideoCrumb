@@ -232,6 +232,7 @@ bool PlaylistController::savedb() {
 
 bool PlaylistController::db_create(bool exists, session& db) {
 
+	/*
 	const double version = .2;
 	double v = 0;
 	indicator ind;
@@ -335,9 +336,12 @@ bool PlaylistController::db_create(bool exists, session& db) {
 	}
 
 	return false;
+	*/
+	return true;
 }
 
 bool PlaylistController::savedb_new() {
+	/*
 	bool exists = boost::filesystem::exists(sc.db);
 	session db(sqlite3, sc.db.native());
 
@@ -392,6 +396,7 @@ bool PlaylistController::savedb_new() {
 	}
 #endif
 
+*/
 	return true;
 }
 
