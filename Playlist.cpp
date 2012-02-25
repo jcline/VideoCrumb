@@ -75,7 +75,7 @@ unsigned int Playlist::played() {
 	if(printstrchanged) {
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
 		size_t size = items.size();
-		for(size_t i = 0; i < items; ++i)
+		for(size_t i = 0; i < size; ++i)
 			if(items[i].getwatched())
 				++ret;
 #else

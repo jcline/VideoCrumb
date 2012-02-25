@@ -2,7 +2,7 @@
 #define PLAYLISTCONTROLLER_H
 
 #include "boost/filesystem.hpp"
-#include "soci/soci.h"
+#include "soci/soci/src/core/soci.h"
 #include <vector>
 
 #include "Playlist.h"
