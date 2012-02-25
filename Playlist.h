@@ -11,8 +11,11 @@
 
 class Playlist {
 	private:
+		//! Keep track of whether or not our string caches need to be updated
 		bool printstrchanged, changed;
+		//! String cache of detailed info, name of playlist, prior name of playlist
 		std::string printstr, name, old_name;
+		//! List of shows in this playlist
 		std::vector<Show> items;
 
 	public:
