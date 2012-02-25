@@ -67,7 +67,7 @@ void PlaylistController::autoaddplaylist(path p) {
 #if BOOST_FILESYSTEM_VERSION == 3
 		shows[i->path().filename().string()] = i->path().string();
 #else
-		shows[i->path().filename()] = i->path();
+		shows[i->path().filename()] = i->path().string();
 #endif
 	}
 
