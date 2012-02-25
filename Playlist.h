@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "soci/soci.h"
+#include "soci/soci/src/core/soci.h"
 
 class Playlist {
 	private:
