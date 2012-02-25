@@ -20,6 +20,12 @@ file or directory." Then you need to edit /usr/include/soci/soci-sqlite3/soci-sq
 to
 #include "../soci-backend.h"
 
+NOTE: I recently added SOCI and a build script to this repository.
+Hopefully this makes things easier for people wanting to compile VideoCrumb.
+If you want to use your system's SOCI, then you just need to remove the line
+./soci-build.sh
+and remove from LFLAGS: -L ./soci/bin/lib
+
 Tested with (x86_64):
   gcc 4.6
 	GNU make 3.82
