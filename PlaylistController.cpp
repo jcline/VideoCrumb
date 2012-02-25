@@ -1,8 +1,8 @@
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/fstream.hpp"
 
-#include "soci/soci.h"
-#include "soci/sqlite3/soci-sqlite3.h"
+#include "soci/soci/src/core/soci.h"
+#include "soci/soci/src/backends/sqlite3/soci-sqlite3.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -52,7 +52,11 @@ void PlaylistController::autoaddplaylist(path p) {
 	if(!is_directory(p))
 		return;
 
-	string n = p.filename().string(), name;
+#if BOOST_FILESYSTEM_VERSION == 3
+	string n = p.filename().string();
+#else
+	string n = p.filename();
+#endif
 	if(n.empty())
 		return;
 
@@ -60,13 +64,25 @@ void PlaylistController::autoaddplaylist(path p) {
 	map<string,string> shows;
 
 	for(auto i = directory_iterator(p); i != directory_iterator(); ++i) {
+#if BOOST_FILESYSTEM_VERSION == 3
 		shows[i->path().filename().string()] = i->path().string();
+#else
+		shows[i->path().filename()] = i->path();
+#endif
 	}
 
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = shows.size();
+	for(size_t i = 0; i < size; ++i) {
+		Show s(shows[i].second, shows[i].first, EPISODE);
+		pl.add(s);
+	}
+#else
 	for(auto &i: shows) {
 		Show s(i.second, i.first, EPISODE);
 		pl.add(s);
 	}
+#endif
 	addplaylist(pl);
 }
 
@@ -176,10 +192,7 @@ cleanup:
 	selection = dispselection = begin();
 	offset = dispoffset = 0;
 
-	std::sort(begin(), end(), [](const Playlist& a, const Playlist& b) {
-			return a.getname() < b.getname();
-		}
-	);
+	std::sort(begin(), end());
 
 	db.close();
 	return ret;
@@ -191,15 +204,28 @@ bool PlaylistController::savedb() {
 	db.open(sc.data);
 
 	//TODO: Better error checking
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+	size_t size = playlists.size();
+	for(size_t i = 0; i < size; ++i) {
+		playlists[i].printdetail(db);
+		db << '\n';
+		size_t shows_size = shows.size();
+		for(size_t j = 0; j < shows_size; ++j) {
+			shows[j].printdetail(db);
+			db << '\n';
+		}
+	}
+#else
 	for(Playlist& p : playlists) {
 		p.printdetail(db);
 		db << '\n';
 		for(Show& s : p) {
 			s.printdetail(db);
-			db<< '\n';
+			db << '\n';
 		}
 
 	}
+#endif
 
 	db.close();
 

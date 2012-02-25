@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "soci/soci.h"
+#include "soci/soci/src/core/soci.h"
 
 enum showtype{ 
 	// Commentaries, like from DVD/BDs

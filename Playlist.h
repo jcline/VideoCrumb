@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "soci/soci.h"
+#include "soci/soci/src/core/soci.h"
 
 class Playlist {
 	private:
@@ -37,6 +37,9 @@ class Playlist {
 		// Get the first unplayed element in the playlist for this session
 		// If there is none, returns begin()
 		auto first() -> decltype(items.end());
+
+		//! Operator for sorting
+		bool operator< (const Playlist& o) const;
 
 		// Marks this playlist as modified, for methods that can be more efficient with this knowledge
 		void change();
