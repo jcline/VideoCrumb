@@ -1,10 +1,10 @@
 CXX			= g++
 #CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
-CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} -pedantic
+CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} -pedantic -t
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -L ./soci/bin/lib -lboost_system -lboost_filesystem -lsoci_core -lsoci_sqlite3
+LFLAGS		= -lboost_system -lboost_filesystem ./soci/bin/lib/libsoci_core.a ./soci/bin/lib/libsoci_sqlite3.a
 CURSESFLAGS	= -lncurses 
 
 SRC = \
