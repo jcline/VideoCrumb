@@ -52,7 +52,11 @@ void PlaylistController::autoaddplaylist(path p) {
 	if(!is_directory(p))
 		return;
 
+#if BOOST_FILESYSTEM_VERSION == 3
 	string n = p.filename().string();
+#else
+	string n = p.filename();
+#endif
 	if(n.empty())
 		return;
 
@@ -60,7 +64,11 @@ void PlaylistController::autoaddplaylist(path p) {
 	map<string,string> shows;
 
 	for(auto i = directory_iterator(p); i != directory_iterator(); ++i) {
+#if BOOST_FILESYSTEM_VERSION == 3
 		shows[i->path().filename().string()] = i->path().string();
+#else
+		shows[i->path().filename()] = i->path();
+#endif
 	}
 
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
