@@ -67,14 +67,13 @@ void PlaylistController::autoaddplaylist(path p) {
 #if BOOST_FILESYSTEM_VERSION == 3
 		shows[i->path().filename().string()] = i->path().string();
 #else
-		shows[i->path().filename()] = i->path();
+		shows[i->path().filename()] = i->path().string();
 #endif
 	}
 
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-	size_t size = shows.size();
-	for(size_t i = 0; i < size; ++i) {
-		Show s(shows[i].second, shows[i].first, EPISODE);
+	for(auto i = shows.begin(); i != shows.end(); ++i) {
+		Show s((*i).second, (*i).first, EPISODE);
 		pl.add(s);
 	}
 #else
@@ -205,13 +204,11 @@ bool PlaylistController::savedb() {
 
 	//TODO: Better error checking
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-	size_t size = playlists.size();
-	for(size_t i = 0; i < size; ++i) {
-		playlists[i].printdetail(db);
+	for(auto i = playlists.begin(); i < playlists.end(); ++i) {
+		(*i).printdetail(db);
 		db << '\n';
-		size_t shows_size = shows.size();
-		for(size_t j = 0; j < shows_size; ++j) {
-			shows[j].printdetail(db);
+		for(auto j = (*i).begin(); j < (*i).end(); ++j) {
+			(*j).printdetail(db);
 			db << '\n';
 		}
 	}
