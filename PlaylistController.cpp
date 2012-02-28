@@ -52,7 +52,11 @@ void PlaylistController::autoaddplaylist(path p) {
 	if(!is_directory(p))
 		return;
 
-	string n = p.filename().string(), name;
+#if BOOST_FILESYSTEM_VERSION == 3
+	string n = p.filename().string();
+#else
+	string n = p.filename();
+#endif
 	if(n.empty())
 		return;
 
@@ -60,13 +64,16 @@ void PlaylistController::autoaddplaylist(path p) {
 	map<string,string> shows;
 
 	for(auto i = directory_iterator(p); i != directory_iterator(); ++i) {
+#if BOOST_FILESYSTEM_VERSION == 3
 		shows[i->path().filename().string()] = i->path().string();
+#else
+		shows[i->path().filename()] = i->path().string();
+#endif
 	}
 
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-	size_t size = shows.size();
-	for(size_t i = 0; i < size; ++i) {
-		Show s(shows[i].second, shows[i].first, EPISODE);
+	for(auto i = shows.begin(); i != shows.end(); ++i) {
+		Show s((*i).second, (*i).first, EPISODE);
 		pl.add(s);
 	}
 #else
@@ -184,10 +191,7 @@ cleanup:
 	selection = dispselection = begin();
 	offset = dispoffset = 0;
 
-	std::sort(begin(), end(), [](const Playlist& a, const Playlist& b) {
-			return a.getname() < b.getname();
-		}
-	);
+	std::sort(begin(), end());
 
 	db.close();
 	return ret;
@@ -200,13 +204,11 @@ bool PlaylistController::savedb() {
 
 	//TODO: Better error checking
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-	size_t size = playlists.size();
-	for(size_t i = 0; i < size; ++i) {
-		playlists[i].printdetail(db);
+	for(auto i = playlists.begin(); i < playlists.end(); ++i) {
+		(*i).printdetail(db);
 		db << '\n';
-		size_t shows_size = shows.size();
-		for(size_t j = 0; j < shows_size; ++j) {
-			shows[j].printdetail(db);
+		for(auto j = (*i).begin(); j < (*i).end(); ++j) {
+			(*j).printdetail(db);
 			db << '\n';
 		}
 	}
@@ -230,6 +232,7 @@ bool PlaylistController::savedb() {
 
 bool PlaylistController::db_create(bool exists, session& db) {
 
+	/*
 	const double version = .2;
 	double v = 0;
 	indicator ind;
@@ -290,6 +293,18 @@ bool PlaylistController::db_create(bool exists, session& db) {
 
 		// TODO: remove this once we drop old database stuff
 		if(!exists) {
+#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
+			int order = 0;
+			for(auto i = playlists.begin(); i < playlists.end(); ++i) {
+				db << "INSERT INTO Playlists VALUES(:NAME)", use(playlists[i]);
+
+				for(auto j = playlists[i].begin(); j < playlists[i].end(); ++j) {
+					db << "INSERT INTO Shows VALUES(:FILE,:NAME,:WATCHED,:TYPE,:PLAYLIST)",
+						 use(*j), use((*j).getname(), "PLAYLIST");
+
+				}
+			}
+#else
 			int order = 0;
 			for(Playlist& p : playlists) {
 				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
@@ -301,6 +316,7 @@ bool PlaylistController::db_create(bool exists, session& db) {
 
 				}
 			}
+#endif
 		}
 
 		db << "SELECT Number FROM Version", into(v, ind);
@@ -320,9 +336,12 @@ bool PlaylistController::db_create(bool exists, session& db) {
 	}
 
 	return false;
+	*/
+	return true;
 }
 
 bool PlaylistController::savedb_new() {
+	/*
 	bool exists = boost::filesystem::exists(sc.db);
 	session db(sqlite3, sc.db.native());
 
@@ -377,6 +396,7 @@ bool PlaylistController::savedb_new() {
 	}
 #endif
 
+*/
 	return true;
 }
 

@@ -9,7 +9,7 @@ class SettingsController {
 	public:
 		bfp config, data, home, db;
 
-		SettingsController(bfp c = "", bfp d = "");
+		void load(bfp c = "", bfp d = "");
 };
 
 #endif

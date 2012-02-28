@@ -88,6 +88,10 @@ unsigned int Playlist::played() {
 	return ret;
 }
 
+bool Playlist::operator< (const Playlist& o) const {
+	return getname() < o.getname();
+}
+
 string Playlist::print() {
 	stringstream out;
 	if(printstrchanged) {

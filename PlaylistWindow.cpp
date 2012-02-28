@@ -1,4 +1,5 @@
 #include <string>
+#include <cstring>
 
 #include "Color.h"
 #include "ncurses.h"
@@ -114,19 +115,19 @@ void PlaylistWindow::drawit() {
 
 	drawheaders(cols);
 
-	size_t offset = 0;
-	if(plc.getselection()->size() > rows) {
-		size_t center = (rows-row)/2;
-		if(selectionoffset > center) {
-			offset = selectionoffset - center;
+	if(!plc.empty()) {
+		size_t offset = 0;
+		if(plc.getselection()->size() > rows) {
+			size_t center = (rows-row)/2;
+			if(selectionoffset > center) {
+				offset = selectionoffset - center;
+			}
+			if(plc.getselection()->size() - offset < (rows-row)) {
+				offset -= (rows-row) - (plc.getselection()->size() - offset);
+			}
+			count = offset;
 		}
-		if(plc.getselection()->size() - offset < (rows-row)) {
-			offset -= (rows-row) - (plc.getselection()->size() - offset);
-		}
-		count = offset;
-	}
 
-	if(plc.size()) {
 		for(auto i = plc.getselection()->begin() + offset;
 			i < plc.getselection()->end() && row < rows; ++i, ++row) {
 
@@ -157,8 +158,10 @@ void PlaylistWindow::drawheaders(unsigned int cols) {
 void PlaylistWindow::selected() {
 	// Find the first unwatched in this session of watching
 	// That is, the first show that we have watched less than the prior shows
-	selection = plc.getselection()->first();
-	selectionoffset = selection - plc.getselection()->begin();
+	if( !plc.empty() ) {
+		selection = plc.getselection()->first();
+		selectionoffset = selection - plc.getselection()->begin();
+	}
 }
 
 void PlaylistWindow::addshow(string& name, string& file, showtype type) {
