@@ -25,6 +25,8 @@ void SettingsController::load(path c, path d) {
 			//exit(1);
 		}
 	}
+	else
+		config = c;
 
 	if(d.empty()) {
 		p = getenv("XDG_DATA_HOME");
@@ -39,6 +41,8 @@ void SettingsController::load(path c, path d) {
 			exit(1);
 		}
 	}
+	else
+		data = d;
 
 	p = getenv("HOME");
 	if(p)
