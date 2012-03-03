@@ -46,7 +46,6 @@ void PlaylistWindow::control(const int c) {
 			break;
 		case KEY_LEFT:
 		case 'u':
-			//TODO: unmark last played file
       selection->unwatch();
       plc.getselection()->change();
       break;

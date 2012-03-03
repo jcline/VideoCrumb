@@ -43,7 +43,9 @@ void Playlist::change() {
 }
 
 void Playlist::deleteselection(decltype(items.begin()) s) {
-	items.erase(s);
+  if (!items.empty()) {
+    items.erase(s);
+  }
 }
 
 auto Playlist::end() -> decltype(items.end()) {
