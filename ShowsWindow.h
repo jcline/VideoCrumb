@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iterator>
 
 #include "Color.h"
 #include "ncurses.h"
@@ -13,9 +14,10 @@
 class ShowsWindow : public Window{
 
 	private:
-		// Adds a new playlist to the list of playlists
+    // Adds a new playlist to the list of playlists
 		void addplaylist(std::string& n);
-
+    // Deletes a show
+    void del();
 		// Draws the column headers
 		void drawheaders(unsigned int cols);
 
@@ -30,7 +32,6 @@ class ShowsWindow : public Window{
 		void control(const int c);
 		// Draws the window
 		void drawit();
-
 };
 
 #endif
