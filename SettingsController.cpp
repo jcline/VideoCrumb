@@ -37,7 +37,7 @@ void SettingsController::load(path c, path d) {
 			db /= "AM/db.sqlite";
 		}
 		else {
-			cerr << "Could not read $XDG_DATA_HOME, please use --data-dir\n";
+			cerr << "Could not read $XDG_DATA_HOME, please use --data_dir\n";
 			exit(1);
 		}
 	}
