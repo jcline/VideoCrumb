@@ -51,7 +51,6 @@ Controls:
 		<return>: add a new show
 		<right arrow>, p: play selected show
 		d: delete item (asks for confirmation)
-		u: 'unwatch' a show, that is, decrement the number of times watched
 		w: increment times item has been watched without playing the file
 		/<string>: search for <string>, press enter to start the search
 	Settings:
