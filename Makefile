@@ -1,14 +1,25 @@
 LOCAL_SOCI_HEADERS = -Isoci/lib/include/soci -Isoci/lib/include/soci/sqlite3
-LOCAL_SOCI_LFLAGS = -Lsoci/lib/lib/ -Lsoci/lib/lib32 -Lsoci/lib/lib64
+LOCAL_SOCI_LFLAGS = libsoci_core.a libsoci_sqlite3.a
+
+CURSESFLAGS	= -lncurses
 
 CXX			= g++
 #CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
-CXXFLAGS		= -Wall --std=c++0x $(DEBUGFLAG) -pedantic -t $(LOCAL_SOCI_HEADERS)
+CXXFLAGS		= -Wall \
+							--std=c++0x \
+							$(DEBUGFLAG) \
+							-pedantic \
+							-t \
+							$(LOCAL_SOCI_HEADERS)
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
-LINKER		= g++
-LFLAGS		= -lboost_system -lboost_program_options -lboost_filesystem $(LOCAL_SOCI)
-CURSESFLAGS	= -lncurses 
+LINKER		= $(CXX)
+LFLAGS		= \
+						$(LOCAL_SOCI_LFLAGS) \
+						$(CURSESFLAGS) \
+						-lboost_system \
+						-lboost_program_options \
+						-lboost_filesystem
 
 SRC = \
 			Color.cpp \
@@ -25,12 +36,19 @@ SRC = \
 			SignalController.cpp \
 			ncurses.cpp
 
+.PHONY: all soci clean
+
+all: videocrumb
+
 OBJS = $(SRC:.cpp=.o)
 
-videocrumb: $(OBJS) 
-	./soci-build.sh
-	$(LINKER) $(CURSESFLAGS) $(LFLAGS) $(OBJS) -o $@
+videocrumb: soci $(OBJS) 
+	$(LINKER) $(LFLAGS) $(OBJS) -o $@
 
+soci:
+	./soci-build.sh
+	cp soci/lib/lib*/libsoci_core.a .
+	cp soci/lib/lib*/libsoci_sqlite3.a .
 
 clean:
-	rm -r $(OBJS) soci/bin/* videocrumb
+	rm -r $(OBJS) soci/bin/ soci/lib/ libsoci_core.a libsoci_sqlite3.a videocrumb
