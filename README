@@ -50,8 +50,9 @@ Controls:
 	Playlist:
 		<return>: add a new show
 		<right arrow>, p: play selected show
-		w: increment times item has been watched without playing the file
 		d: delete item (asks for confirmation)
+		u: 'unwatch' a show, that is, decrement the number of times watched
+		w: increment times item has been watched without playing the file
 		/<string>: search for <string>, press enter to start the search
 	Settings:
 	Global:
@@ -60,3 +61,7 @@ Controls:
 		s: save the database
 		down arrow: scroll down
 		up arrow: scroll up
+		1: Switch to the Playlist window
+		2: Switch to the Shows window
+		3: Switch to the Edit window (unimplemented)
+		4: Switch to the Settings window (partial implementation)

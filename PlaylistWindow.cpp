@@ -33,7 +33,7 @@ void PlaylistWindow::command(const string& s) {
 void PlaylistWindow::control(const int c) {
 	string *s, *f;
 	switch (c) {
-		case '\n':
+    case '\n':
 			// This is a bit of a mess =/
 			s = strinput();
 			if(s->length()) {
@@ -46,7 +46,9 @@ void PlaylistWindow::control(const int c) {
 			break;
 		case KEY_LEFT:
 		case 'u':
-			//TODO: unmark last played file
+      selection->unwatch();
+      plc.getselection()->change();
+      break;
 		case KEY_UP:
 			if(plc.size() && selection != plc.getselection()->begin()) {
 				--selection;
@@ -72,6 +74,7 @@ void PlaylistWindow::control(const int c) {
 			break;
 		case 'w':
 			selection->watch();
+      plc.getselection()->change();
 			break;
 		case '/':
 			s = strinput("/");

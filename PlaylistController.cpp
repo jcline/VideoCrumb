@@ -93,7 +93,11 @@ auto PlaylistController::cbegin() -> decltype(playlists.cbegin()) {
 	return playlists.cbegin();
 }
 
-void deleteselected() {}
+void PlaylistController::deleteselected() {
+  if (!playlists.empty()) {
+    playlists.erase(dispselection);
+  }
+}
 
 auto PlaylistController::end() -> decltype(playlists.end()) {
 	return playlists.end();
@@ -115,6 +119,10 @@ auto PlaylistController::getselection() -> decltype(selection) {
 auto PlaylistController::getdispselection() -> decltype(selection) {
 	dispselection = begin() + dispoffset;
 	return dispselection;
+}
+
+size_t PlaylistController::getdispoffset() {
+  return dispoffset;
 }
 
 void PlaylistController::go() {

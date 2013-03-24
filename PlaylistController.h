@@ -64,6 +64,12 @@ class PlaylistController {
 		 */
 		auto getdispselection() -> decltype(playlists.begin());
 
+    /**
+     * Get the offset corresponding to currently selected playlist
+     * Used by shows window.
+     */ 
+    size_t getdispoffset();
+
 		/**
 		 * Sets the selected playlist for playlist window to be dispselection.
 		 */

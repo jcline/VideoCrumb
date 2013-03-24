@@ -12,33 +12,17 @@ using std::string;
 
 using namespace boost::filesystem;
 
-void SettingsController::load(path c, path d) {
-	char* p;
-	if(c.empty()) {
-		p = getenv("XDG_CONFIG_HOME");
-		if(p) {
-			config = p;
-			config /= "AM";
-		}
-		else {
-			cerr << "Could not read $XDG_CONFIG_HOME, please use --config\n";
-			//exit(1);
-		}
-	}
-
-	if(d.empty()) {
-		p = getenv("XDG_DATA_HOME");
-		if(p) {
-			data = p;
-			data /= "AM/dbnew";
-			db = p;
-			db /= "AM/db.sqlite";
-		}
-		else {
-			cerr << "Could not read $XDG_DATA_HOME, please use --data-dir\n";
+void CheckCreatePath(path p) {
+	if (!exists(p)) {
+		if(!create_directory(p)) {
+			cerr << "Could not create '" << p << "'.\n";
 			exit(1);
 		}
 	}
+}
+
+void SettingsController::load(path c, path d) {
+	char* p;
 
 	p = getenv("HOME");
 	if(p)
@@ -47,4 +31,43 @@ void SettingsController::load(path c, path d) {
 		cerr << "Could not read $HOME\n";
 		exit(1);
 	}
+
+	if(c.empty()) {
+		p = getenv("XDG_CONFIG_HOME");
+		if(!p) {
+			config = path(home);
+			config /= ".config";
+			CheckCreatePath(config);
+		}
+		else
+			config = p;
+
+		config /= "videocrumb";
+		CheckCreatePath(config);
+	}
+	else
+		config = c;
+
+	if(d.empty()) {
+		p = getenv("XDG_DATA_HOME");
+		if(!p) {
+			data = path(home);
+			data /= ".local";
+			CheckCreatePath(data);
+
+			data /= "share";
+			CheckCreatePath(data);
+		}
+		else
+			data = p;
+
+		data /= "videocrumb";
+		CheckCreatePath(data);
+
+		db = path(data);
+		data /= "dbnew";
+		db /= "db.sqlite";
+	}
+	else
+		data = d;
 }

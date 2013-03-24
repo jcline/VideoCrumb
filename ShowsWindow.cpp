@@ -42,6 +42,9 @@ void ShowsWindow::control(const int c) {
 				switchwin("Playlist");
 			}
 			break;
+    case 'd':
+      del();
+      break;
 		case '/':
 			s = strinput("/");
 			for(auto i = plc.getdispselection(); i < plc.end(); ++i) {
@@ -56,6 +59,21 @@ void ShowsWindow::control(const int c) {
 		default:
 			break;
 	}
+}
+
+void ShowsWindow::del() {
+  string* s = strinput("Are you sure you want to delete this item? [y/N] ");
+  if (s->length()) {
+    if (*s == "y" || *s == "Y") {
+      plc.deleteselected();
+      delete(s);
+      auto i = plc.getdispselection()->begin() + plc.getdispoffset();
+      auto j = plc.getdispselection()->end();
+      if (distance(i, j)) {
+        plc.offsetdispselection(-1);
+      }
+    }
+  }
 }
 
 void ShowsWindow::drawit() {
