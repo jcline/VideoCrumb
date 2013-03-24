@@ -14,7 +14,11 @@ Dependencies:
 		program_options
 	soci (Make sure your version has SQLite support)
 
-If you get an error when compiling saying, "fatal error: soci-backend.h: No such
+NOTE: I recently removed the in source soci copy, now it is a submodule. You will
+need to run `git submodule init` and `git submodule update` upon cloning this
+repo. (Hopefully this isn't too unstable.)
+
+NOTE: If you get an error when compiling saying, "fatal error: soci-backend.h: No such
 file or directory." Then you need to edit /usr/include/soci/soci-sqlite3/soci-sqlite3.h 
 #include "soci-backend.h"
 to
@@ -22,15 +26,19 @@ to
 
 NOTE: I recently added SOCI and a build script to this repository.
 Hopefully this makes things easier for people wanting to compile VideoCrumb.
-If you want to use your system's SOCI, then you just need to remove the line
-./soci-build.sh
-and remove from LFLAGS: -L ./soci/bin/lib
+If you want to use your system's SOCI, then delete from the Makefile, under
+the videocrumb rule: `./soci-build.sh` and remove from `LFLAGS` `$(LOCAL_SOCI)`
 
 Tested with (x86_64):
   gcc 4.6
 	GNU make 3.82
   boost 1.46
   ncurses 5.9
+
+Cloning:
+  $ git clone git@github.com:jcline/VideoCrumb.git
+	$ git submodule init
+	$ git submodule update
 
 Compilation:
 	$ make
