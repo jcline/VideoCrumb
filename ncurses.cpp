@@ -11,13 +11,17 @@
 #include "Color.h"
 #include "Player.h"
 #include "Playlist.h"
-#include "PlaylistController.h"
-#include "PlaylistWindow.h"
-#include "SettingsController.h"
-#include "SettingsWindow.h"
 #include "Show.h"
-#include "ShowsWindow.h"
 #include "Window.h"
+
+#include "DatabaseManager.h"
+
+#include "PlaylistController.h"
+#include "SettingsController.h"
+
+#include "PlaylistWindow.h"
+#include "SettingsWindow.h"
+#include "ShowsWindow.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
