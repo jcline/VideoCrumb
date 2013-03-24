@@ -39,6 +39,8 @@ void SettingsController::load(path c, path d) {
 			config /= ".config";
 			CheckCreatePath(config);
 		}
+		else
+			config = p;
 
 		config /= "videocrumb";
 		CheckCreatePath(config);
@@ -56,9 +58,8 @@ void SettingsController::load(path c, path d) {
 			data /= "share";
 			CheckCreatePath(data);
 		}
-		else {
+		else
 			data = p;
-		}
 
 		data /= "videocrumb";
 		CheckCreatePath(data);
