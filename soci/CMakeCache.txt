@@ -204,11 +204,29 @@ DART_TESTING_TIMEOUT:STRING=1500
 //The directory to install data files into.
 DATADIR:PATH=share
 
+//DB2 found
+DB2_FOUND:BOOL=FALSE
+
+//Path to a file.
+DB2_INCLUDE_DIR:PATH=DB2_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+DB2_LIBRARY:FILEPATH=DB2_LIBRARY-NOTFOUND
+
 //Path to a file.
 DL_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
 DL_LIBRARY:FILEPATH=/usr/lib64/libdl.so
+
+//Firebird found
+FIREBIRD_FOUND:BOOL=FALSE
+
+//Path to a file.
+FIREBIRD_INCLUDE_DIR:PATH=FIREBIRD_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+FIREBIRD_LIBRARIES:FILEPATH=FIREBIRD_LIBRARIES-NOTFOUND
 
 //Path to a program.
 GITCOMMAND:FILEPATH=/usr/bin/git
@@ -280,7 +298,7 @@ SLURM_SRUN_COMMAND:FILEPATH=SLURM_SRUN_COMMAND-NOTFOUND
 //Value Computed by CMake
 SOCI_BINARY_DIR:STATIC=/home/vil/projects/AM/soci/bin
 
-//Attempt to build SOCI backend for Empty
+//Build empty backend
 SOCI_EMPTY:BOOL=OFF
 
 //Connection string for EMPTY test
@@ -319,6 +337,9 @@ SOCI_SQLITE3:BOOL=ON
 //Connection string for SQLITE3 test
 SOCI_SQLITE3_TEST_CONNSTR:STRING=
 
+//Enable build of static libraries
+SOCI_STATIC:BOOL=ON
+
 //Enable build of collection of SOCI tests
 SOCI_TESTS:BOOL=OFF
 
@@ -333,6 +354,12 @@ SVNCOMMAND:FILEPATH=/usr/bin/svn
 
 //Attempt to find and configure Boost
 WITH_BOOST:BOOL=ON
+
+//Attempt to find and configure DB2
+WITH_DB2:BOOL=OFF
+
+//Attempt to find and configure Firebird
+WITH_FIREBIRD:BOOL=OFF
 
 //Attempt to find and configure MySQL
 WITH_MYSQL:BOOL=OFF
@@ -359,6 +386,9 @@ soci_core-static_LIB_DEPENDS:STATIC=
 soci_core_LIB_DEPENDS:STATIC=general;-lpthread;general;/usr/lib64/libdl.so;
 
 //Dependencies for target
+soci_core_static_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
 soci_empty-static_LIB_DEPENDS:STATIC=
 
 //Dependencies for the target
@@ -375,6 +405,9 @@ soci_sqlite3-static_LIB_DEPENDS:STATIC=
 
 //Dependencies for the target
 soci_sqlite3_LIB_DEPENDS:STATIC=general;soci_core;general;/usr/lib64/libsqlite3.so;
+
+//Dependencies for target
+soci_sqlite3_static_LIB_DEPENDS:STATIC=
 
 
 ########################
@@ -497,7 +530,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=15
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=5
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -542,12 +575,18 @@ CVSCOMMAND-ADVANCED:INTERNAL=1
 CVS_UPDATE_OPTIONS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DART_TESTING_TIMEOUT
 DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DB2_INCLUDE_DIR
+DB2_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DL_INCLUDE_DIR
 DL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DL_LIBRARY
 DL_LIBRARY-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: FIREBIRD_INCLUDE_DIR
+FIREBIRD_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FIREBIRD_LIBRARIES
+FIREBIRD_LIBRARIES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GITCOMMAND
 GITCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: HGCOMMAND
@@ -594,6 +633,10 @@ SQLITE3_INCLUDE_DIR-ADVANCED:INTERNAL=1
 SQLITE3_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: SVNCOMMAND
 SVNCOMMAND-ADVANCED:INTERNAL=1
+//MODIFIED property for variable: WITH_DB2
+WITH_DB2-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: WITH_FIREBIRD
+WITH_FIREBIRD-MODIFIED:INTERNAL=ON
 //MODIFIED property for variable: WITH_MYSQL
 WITH_MYSQL-MODIFIED:INTERNAL=ON
 //MODIFIED property for variable: WITH_ODBC
