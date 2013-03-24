@@ -1,5 +1,5 @@
-#include "soci/soci.h"
-#include "soci/sqlite3/soci-sqlite3.h"
+#include "soci.h"
+#include "sqlite3/soci-sqlite3.h"
 
 #include "Playlist.h"
 #include "Show.h"
@@ -12,7 +12,8 @@ DatabaseManager::DatabaseManager() {
 DatabaseManager::~DatabaseManager() {
 }
 
-bool DatabaseManager::create_db(bool exists, session& db) {
+bool DatabaseManager::create_db(bool exists, soci::session& db) {
+	using namespace soci;
 
 	const double version = .2;
 	double v = 0;

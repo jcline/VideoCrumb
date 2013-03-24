@@ -1,8 +1,8 @@
 #ifndef DATABSEMANAGER_H
 #define DATABASEMANAGER_H
 
-#include "soci/soci.h"
-#include "soci/sqlite3/soci-sqlite3.h"
+#include "soci.h"
+#include "sqlite3/soci-sqlite3.h"
 
 class DatabaseManager {
 	public:
@@ -12,7 +12,7 @@ class DatabaseManager {
 		/**
 		 * Create the SQLite database file and create all the tables.
 		 */
-		bool create_db();
+		bool create_db(bool exists, soci::session& db);
 
 		/**
 		 * Save/update the data in the database when requested.
@@ -20,6 +20,6 @@ class DatabaseManager {
 		bool save_db();
 	private:
 
-}
+};
 
 #endif

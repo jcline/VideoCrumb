@@ -1,10 +1,13 @@
+LOCAL_SOCI_HEADERS = -Isoci/lib/include/soci -Isoci/lib/include/soci/sqlite3
+LOCAL_SOCI_LFLAGS = -Lsoci/lib/lib/ -Lsoci/lib/lib32 -Lsoci/lib/lib64
+
 CXX			= g++
 #CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
-CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG} -pedantic -t
+CXXFLAGS		= -Wall --std=c++0x $(DEBUGFLAG) -pedantic -t $(LOCAL_SOCI_HEADERS)
 OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= g++
-LFLAGS		= -lboost_system -lboost_program_options -lboost_filesystem ./soci/bin/lib/libsoci_core.a ./soci/bin/lib/libsoci_sqlite3.a
+LFLAGS		= -lboost_system -lboost_program_options -lboost_filesystem $(LOCAL_SOCI)
 CURSESFLAGS	= -lncurses 
 
 SRC = \
