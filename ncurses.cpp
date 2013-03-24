@@ -44,7 +44,8 @@ tuple<
   PlaylistWindow,
 	ShowsWindow,
 	SettingsWindow
-> windows;
+	>
+windows;
 
 // Macros to make it easy to change window ordering
 #define PLAYLISTWINDOW 0
@@ -54,35 +55,35 @@ tuple<
 vector<string> winnames; // Since there is no good way to iterate over a tuple
 auto winsel = winnames.begin();
 
-int main( int argc, char **argv) {
+int main(int argc, char **argv) {
 
 	{
 		boost::filesystem::path config_file, data_dir;
 		namespace po = boost::program_options;
 
-		po::options_description desc( "Arguments:" );
+		po::options_description desc("Arguments:");
 		desc.add_options()
-			( "help", "Display this message." )
-			( "config", po::value<std::string>(),
-			 	"The location of the configuration file, default $XDG_CONFIG_HOME" )
-			( "data_dir", po::value<std::string>(),
-				"The location to store the database, default $XDG_DATA_HOME" )
+			("help", "Display this message.")
+			("config", po::value<std::string>(),
+				"The location of the configuration file, default $XDG_CONFIG_HOME")
+			("data_dir", po::value<std::string>(),
+				"The location to store the database, default $XDG_DATA_HOME")
 		;
 
 		po::variables_map vm;
-		po::store( po::parse_command_line( argc, argv, desc ), vm );
-		po::notify( vm );
+		po::store(po::parse_command_line(argc, argv, desc), vm);
+		po::notify(vm);
 
-		if( vm.count("help") ) {
+		if(vm.count("help")) {
 			std::cout << desc << '\n';
 			return 0;
 		}
 
-		if( vm.count( "config" ) )
+		if(vm.count("config"))
 			config_file =  vm["config"].as<std::string>();
 		else
 			config_file = "";
-		if( vm.count( "data_dir" ) )
+		if(vm.count("data_dir"))
 			data_dir = vm["data_dir"].as<std::string>();
 		else
 			data_dir = "";
@@ -102,7 +103,7 @@ int main( int argc, char **argv) {
 	initscr();
 	cbreak();
 	noecho();
-	keypad( stdscr, TRUE );
+	keypad(stdscr, TRUE);
 	curs_set(0);
 
 	// Setup colors
@@ -112,11 +113,11 @@ int main( int argc, char **argv) {
 
 	// Setup windows
 	int cols, rows;
-	getmaxyx( stdscr, rows, cols );
-	windows = decltype(windows) ( 
-		PlaylistWindow( newwin( rows-2, 0, 1, 0 ), colormanager, player ),
-		ShowsWindow   ( newwin( rows-2, 0, 1, 0 ), colormanager ),
-		SettingsWindow( newwin( rows-2, 0, 1, 0 ), colormanager )
+	getmaxyx(stdscr, rows, cols);
+	windows = decltype(windows) (
+		PlaylistWindow(newwin(rows-2, 0, 1, 0), colormanager, player),
+		ShowsWindow   (newwin(rows-2, 0, 1, 0), colormanager),
+		SettingsWindow(newwin(rows-2, 0, 1, 0), colormanager)
 	);
 
 	// Window titlebar
@@ -244,7 +245,7 @@ string* strinput(const char* prepend) {
 	curs_set(1);
 
 	int rows, cols;
-	getmaxyx( stdscr, rows, cols);
+	getmaxyx(stdscr, rows, cols);
 
 	char cstr[cols];
 	memset(cstr, 0, cols);
