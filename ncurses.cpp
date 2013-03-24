@@ -248,7 +248,7 @@ string* strinput(const char* prepend) {
 	int rows, cols;
 	getmaxyx(stdscr, rows, cols);
 
-	char cstr[cols];
+	char* cstr = new char[cols];
 	memset(cstr, 0, cols);
 
 	mvwprintw(stdscr, rows-1, 0, "%s", prepend);
@@ -258,6 +258,7 @@ string* strinput(const char* prepend) {
 	wclrtoeol(stdscr);
 
 	string* str = new string(cstr);
+	delete[] cstr;
 
 	curs_set(0);
 	cbreak();
