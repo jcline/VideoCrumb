@@ -4,6 +4,10 @@
 #include "soci.h"
 #include "sqlite3/soci-sqlite3.h"
 
+#include "Playlist.h"
+
+#include <vector>
+
 class DatabaseManager {
 	public:
 		DatabaseManager();
@@ -17,7 +21,7 @@ class DatabaseManager {
 		/**
 		 * Save/update the data in the database when requested.
 		 */
-		bool save_db();
+		bool save_db(std::vector<Playlist> playlists);
 	private:
 
 };

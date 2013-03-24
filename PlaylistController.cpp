@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "DatabaseManager.h"
 #include "PlaylistController.h"
 #include "SettingsController.h"
 
@@ -26,6 +27,7 @@ using boost::filesystem::ofstream;
 using boost::filesystem::ifstream;
 using namespace boost::filesystem;
 
+extern DatabaseManager dbm;
 extern SettingsController sc;
 
 PlaylistController::PlaylistController() {
@@ -234,7 +236,7 @@ bool PlaylistController::savedb() {
 
 	db.close();
 
-	savedb_new();
+	dbm.save_db(playlists);
 
 	return true;
 }

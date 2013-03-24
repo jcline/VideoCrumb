@@ -4,7 +4,14 @@
 #include "Playlist.h"
 #include "Show.h"
 
+#include "PlaylistController.h"
+#include "SettingsController.h"
+
 #include "DatabaseManager.h"
+
+#include <boost/filesystem.hpp>
+
+extern SettingsController sc;
 
 DatabaseManager::DatabaseManager() {
 }
@@ -15,8 +22,8 @@ DatabaseManager::~DatabaseManager() {
 bool DatabaseManager::create_db(bool exists, soci::session& db) {
 	using namespace soci;
 
-	const double version = .2;
-	double v = 0;
+	const int version = 3;
+	int v = 0;
 	indicator ind;
 	bool init = true, caught = false;
 
@@ -56,7 +63,7 @@ bool DatabaseManager::create_db(bool exists, soci::session& db) {
 			"Name TEXT PRIMARY KEY ASC NOT NULL"
 			")";
 		db << "CREATE TABLE IF NOT EXISTS Version ("
-			"Number REAL NOT NULL"
+			"Number INT NOT NULL"
 			")";
 
 		db << "CREATE TABLE IF NOT EXISTS Shows ("
@@ -68,65 +75,41 @@ bool DatabaseManager::create_db(bool exists, soci::session& db) {
 			"Playlist REFERENCES Playlists (Name) ON DELETE CASCADE ON UPDATE CASCADE"
 			")";
 
-		if(exists && !caught && v < version) {
+		if(exists && !caught && v < version)
 			db << "UPDATE Version SET Number = :version", use(version);
-		}
-		else
+		else if (!exists || caught)
 			db << "INSERT INTO Version (Number) VALUES(:version)", use(version);
+	}
+	else if (v < version) {
+		//migrations
+	}
 
-		// TODO: remove this once we drop old database stuff
-		if(!exists) {
-#if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
-			int order = 0;
-			for(auto i = playlists.begin(); i < playlists.end(); ++i) {
-				db << "INSERT INTO Playlists VALUES(:NAME)", use(playlists[i]);
+	db << "SELECT Number FROM Version", into(v, ind);
 
-				for(auto j = playlists[i].begin(); j < playlists[i].end(); ++j) {
-					db << "INSERT INTO Shows VALUES(:FILE,:NAME,:WATCHED,:TYPE,:PLAYLIST)",
-						 use(*j), use((*j).getname(), "PLAYLIST");
-
-				}
-			}
-#else
-			int order = 0;
-			for(Playlist& p : playlists) {
-				db << "INSERT INTO Playlists VALUES(:NAME)", use(p);
-
-				for(Show& s : p) {
-
-					db << "INSERT INTO Shows VALUES(:FILE,:NAME,:WATCHED,:TYPE,:PLAYLIST)",
-						 use(s), use(p.getname(), "PLAYLIST");
-
-				}
-			}
-#endif
-		}
-
-		db << "SELECT Number FROM Version", into(v, ind);
-
-		if(db.got_data()) {
-			switch(ind) {
-				case i_ok:
-					return true;
-					break;
-				case i_null:
-					return false;
-					break;
-				case i_truncated:
-					break;
-			}
+	if(db.got_data()) {
+		switch(ind) {
+			case i_ok:
+				return true;
+				break;
+			case i_null:
+				return false;
+				break;
+			case i_truncated:
+				break;
 		}
 	}
 
 	return false;
 }
 
-bool PlaylistController::save_db() {
+bool DatabaseManager::save_db(std::vector<Playlist> playlists) {
+	using namespace soci;
+
 	bool exists = boost::filesystem::exists(sc.db);
 	session db(sqlite3, sc.db.native());
 
 	// TODO: remove exists once we drop old database stuff
-	assert(db_create(exists, db));
+	assert(create_db(exists, db));
 
 #if __GNUC__ <= 4 && __GNUC_MINOR__ < 6
 	size_t size = playlists.size();
@@ -146,7 +129,7 @@ bool PlaylistController::save_db() {
 		}
 
 
-		size_t shows_size = p.size();
+		size_t shows_size = playlists[i].size();
 		for(size_t j = 0; j < shows_size; ++j) {
 			//s.printdetail(db);
 			//db << '\n';

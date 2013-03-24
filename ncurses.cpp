@@ -36,6 +36,7 @@ void switchwin(const string& name);
 
 Color colormanager;
 Player player;
+DatabaseManager dbm;
 PlaylistController plc;
 SettingsController sc;
 Window* dispwin;
