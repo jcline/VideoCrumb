@@ -72,6 +72,10 @@ void Show::watch() {
 	++watched;
 }
 
+void Show::unwatch() {
+	--watched;
+}
+
 const unsigned int Show::getwatched() {
 	return watched;
 }

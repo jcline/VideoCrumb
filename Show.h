@@ -61,6 +61,11 @@ class Show {
 		void watch();
 		
 		/**
+		 * Decrement watch count.
+		 */
+		void unwatch();
+
+		/**
 		 * Getter for number of times this show has been watched.
 		 */
 		const unsigned int getwatched();
