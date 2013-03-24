@@ -27,7 +27,7 @@ class Show {
 		showtype type;
 
 		/**
-		 * The constructor that should be use.
+		 * The constructor that should be used.
 		 *
 		 * @param f the path to this show's file
 		 * @param n the name of this show
