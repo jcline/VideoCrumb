@@ -1,9 +1,11 @@
 LOCAL_SOCI_HEADERS = -Isoci/lib/include/soci -Isoci/lib/include/soci/sqlite3
-LOCAL_SOCI_LFLAGS = libsoci_core.a libsoci_sqlite3.a
+LOCAL_SOCI_LFLAGS = \
+										$(CURDIR)/libsoci_core.a \
+										$(CURDIR)/libsoci_sqlite3.a
 
 CURSESFLAGS	= -lncurses
 
-CXX			= g++
+CXX			= g++-4.7.2
 #CXXFLAGS		= -Wall --std=c++0x ${DEBUGFLAG}
 CXXFLAGS		= -Wall \
 							--std=c++0x \
@@ -15,11 +17,12 @@ OPTFLAG		= -O2
 DEBUGFLAG	= -g
 LINKER		= $(CXX)
 LFLAGS		= \
-						$(LOCAL_SOCI_LFLAGS) \
 						$(CURSESFLAGS) \
 						-lboost_system \
 						-lboost_program_options \
-						-lboost_filesystem
+						-lboost_filesystem \
+						-lsqlite3 \
+						$(LOCAL_SOCI_LFLAGS)
 
 SRC = \
 			Color.cpp \
@@ -43,7 +46,7 @@ all: videocrumb
 OBJS = $(SRC:.cpp=.o)
 
 videocrumb: soci $(OBJS) 
-	$(LINKER) $(LFLAGS) $(OBJS) -o $@
+	$(LINKER) $(OBJS) -o $@ $(LFLAGS)
 
 soci:
 	./soci-build.sh
