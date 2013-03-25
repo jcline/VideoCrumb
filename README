@@ -36,7 +36,7 @@ Tested with (x86_64):
   ncurses 5.9
 
 Cloning:
-  $ git clone git@github.com:jcline/VideoCrumb.git
+	$ git clone git@github.com:jcline/VideoCrumb.git
 	$ git submodule init
 	$ git submodule update
 
